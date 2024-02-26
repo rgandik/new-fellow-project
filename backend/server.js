@@ -2,6 +2,7 @@
 const express = require("express");
 const firebase = require("./firebase");
 const swaggerJsDoc = require("swagger-jsdoc");
+// Version 4.3.0 of swagger-ui-express installed to prevent issues with Swagger rendering when hosted on Vercel
 const swaggerUi = require("swagger-ui-express");
 
 require("dotenv").config();
