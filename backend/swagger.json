@@ -1,0 +1,34 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "New Fellow Project ",
+      "version": "1.0.0",
+      "description": "Skeleton API for New Fellow Project app. Built by TPEO"
+    },
+    "paths": {
+        "/test": {
+            "get": {
+                "summary": "Tests API calls to backend",
+                "description": "Returns a message to demonstrate functionality of API calls to backend.",
+                "responses": {
+                    "200": {
+                        "description": "Returns 'Success' to demonstrate that API calls can successfully be made to backend.",
+                        "content": {
+                            "text/plain": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "string",
+                                        "example": "Success"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        }
+    }
+  }

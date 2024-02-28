@@ -4,6 +4,8 @@ const firebase = require("./firebase");
 const swaggerJsDoc = require("swagger-jsdoc");
 // Version 4.3.0 of swagger-ui-express installed to prevent issues with Swagger rendering when hosted on Vercel
 const swaggerUi = require("swagger-ui-express");
+// Swagger API documentation stored as a json file
+const swagger = require("./swagger.json");
 
 require("dotenv").config();
 
@@ -15,15 +17,8 @@ const db = firebase.firestore;
 // Swagger configuration
 const swaggerOptions = {
   // Rendered elements (may need to be updated when editing API routes)
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "MeetUp API",
-      version: "1.0.0",
-      description: "Skeleton API for MeetUp app. Built by TPEO",
-    },
-  },
-  apis: ["./server.js"], // Path to the API docs
+  definition: swagger,
+  apis: ["./swagger.json"], // Path to the API docs
 };
 
 // Swagger middleware
@@ -38,24 +33,6 @@ app.use(
 );
 
 // Test API routes (preceded by Swagger documentation)
-
-/**
- * @swagger
- * /test:
- *   get:
- *     summary: Tests API calls to backend
- *     description: Returns a message to demonstrate functionality of API calls to backend.
- *     responses:
- *       200:
- *         description: Returns "Success" to demonstrate that API calls can successfully be made to backend.
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Success
- *       500:
- *         description: Server Error
- */
 app.get("/test", async (req, res) => {
   try {
     res.status(200).send('Success')
