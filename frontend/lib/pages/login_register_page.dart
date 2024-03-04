@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/pages/first_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -52,13 +53,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
+    return Text(errorMessage == '' ? '' : 'Error: ? $errorMessage');
   }
 
-  Widget _submitButton() {
+  Widget _submitButton(BuildContext context) {
     return ElevatedButton(
-      onPressed:
-        isLogin ? signInWithEmailAndPassword : createUserWithEmailAndPassword,
+      onPressed: ()
+      {
+        isLogin ? signInWithEmailAndPassword() : createUserWithEmailAndPassword();
+        Navigator.push(context,
+        MaterialPageRoute(builder: (context) => First_Page()));
+      },
       child: Text(isLogin ? 'Login' : 'Register'),
     );
   }
@@ -90,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
             _entryField('email', _controllerEmail),
             _entryField('password', _controllerPassword),
             _errorMessage(),
-            _submitButton(),
+            _submitButton(context),
             _loginOrRegisterButton()
           ]
         )
