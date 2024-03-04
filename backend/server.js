@@ -1,18 +1,23 @@
 // Importing required modules for Express API calls, Firebase authentication and database access, and Swagger API documentation
 const express = require("express");
-const firebase = require("./firebase");
+const admin = require("firebase-admin");
 const swaggerJsDoc = require("swagger-jsdoc");
 // Version 4.3.0 of swagger-ui-express installed to prevent issues with Swagger rendering when hosted on Vercel
 const swaggerUi = require("swagger-ui-express");
 // Swagger API documentation stored as a json file
 const swagger = require("./swagger.json");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 require("dotenv").config();
 
 const app = express();
 
-// Might be equivalent to const db = require("./firebase");
-const db = firebase.firestore;
+const db = require("./firebase");
+
+// Middlewares to handle cross-origin requests and to parse the body of incoming requests to JSON
+app.use(cors());
+app.use(bodyParser.json());
 
 // Swagger configuration
 const swaggerOptions = {
@@ -33,14 +38,31 @@ app.use(
   })
 );
 
-// Test API routes (preceded by Swagger documentation)
-app.get("/test", async (req, res) => {
+// POST: Endpoint to add a new user's profile
+app.post("/users", async (req, res) => {
   try {
-    res.status(200).send('Success')
-  } catch {
-    res.status(500).send(error.message)
+    // Sets the data object to the provided key-value pairs in the request body
+    const data = {
+      "uid": req.body.uid,
+      "name": req.body.name ?? "null",
+      "birthday": req.body.birthday ?? "null",
+      "gender": req.body.gender ?? "null",
+      "school": req.body.school ?? "null",
+      "icity": req.body.icity ?? "null",
+      "icompany": req.body.icomponay ?? "null",
+      "irole": req.body.irole ?? "null",
+    }
+
+      // Makes the POST request to the database with contents of data object
+      const snapshot = await db.collection("users").doc(data.uid).set(data, { merge: true });
+      
+      // Response with data from POST request and Firestore-generated ID (201 for POST)
+      res.status(201).send(snapshot);
+  } catch(error) {
+    // In case of an error with request, sends an error message instead
+    res.status(500).send(error.message);
   }
-});
+})
 
 app.listen(4000, () => {
   console.log("Server running on port 4000");
