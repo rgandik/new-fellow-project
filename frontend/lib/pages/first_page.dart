@@ -3,6 +3,17 @@ import 'package:flutter/material.dart';
 class First_Page extends StatelessWidget {
   First_Page({Key? key}) : super (key: key);
 
+  Widget _entryField(
+      String title,
+      TextEditingController controller
+      ) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+          labelText: title),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
