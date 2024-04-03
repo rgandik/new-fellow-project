@@ -42,7 +42,6 @@ class AuthService {
   Future<void> createUserWithEmailAndPassword({required String email, required String password}) async {
     await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     postUser(field: "uid", value: currentUser!.uid);
-    // return currentUser!.uid;
   }
 
   Future<void> signOut() async {

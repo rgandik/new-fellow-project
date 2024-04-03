@@ -56,6 +56,17 @@ class First_Page extends StatelessWidget {
   }
 
 
+  Widget _entryField(
+      String title,
+      TextEditingController controller
+      ) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+          labelText: title),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
