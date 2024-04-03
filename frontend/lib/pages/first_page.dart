@@ -18,16 +18,16 @@ class First_Page extends StatelessWidget {
   @override
   // _First_PageState createState() => _First_PageState();
 
-  Widget _entryField(
-      String title,
-      TextEditingController controller
-      ) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-          labelText: title),
-    );
-  }
+  // Widget _entryField(
+  //     String title,
+  //     TextEditingController controller
+  //     ) {
+  //   return TextField(
+  //     controller: controller,
+  //     decoration: InputDecoration(
+  //         labelText: title),
+  //   );
+  // }
 
 
   Widget _submitButton(BuildContext context) {
