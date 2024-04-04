@@ -40,7 +40,7 @@ class WhenBirthday extends StatelessWidget {
                         ),
                         TextSpan(
                           text: " Birthday?",
-                          style: TextStyle(color: myOrange),
+                          style: TextStyle(color: Constants.myOrange),
                         ),
                       ],
                     ),

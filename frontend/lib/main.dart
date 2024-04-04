@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend/pages/CityCircleFrontPage.dart';
+import 'package:frontend/pages/Explore.dart';
+import 'package:frontend/pages/root_screen.dart';
 import 'package:frontend/widget_tree.dart';
 import 'firebase_options.dart';
 
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const WidgetTree(),
-      home: CityCircleFrontPage(),
+      home: RootScreen(),
     );
   }
 }

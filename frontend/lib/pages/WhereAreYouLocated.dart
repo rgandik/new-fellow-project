@@ -40,7 +40,7 @@ class WhereAreYouLocated extends StatelessWidget {
                         ),
                         TextSpan(
                           text: "Located",
-                          style: TextStyle(color: myOrange),
+                          style: TextStyle(color: Constants.myOrange),
                         ),
                         TextSpan(
                           text: "?",

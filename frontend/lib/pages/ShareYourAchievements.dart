@@ -40,7 +40,7 @@ class ShareYourAchievements extends StatelessWidget {
                         ),
                         TextSpan(
                           text: " Achievements!",
-                          style: TextStyle(color: myOrange),
+                          style: TextStyle(color: Constants.myOrange),
                         ),
                       ],
                     ),
