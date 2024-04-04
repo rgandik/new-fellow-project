@@ -40,7 +40,9 @@ app.use(
 
 // POST: Endpoint to add a new user's profile
 app.post("/users", async (req, res) => {
+  console.log("called users");
   try {
+
     // Sets the data object to the provided key-value pairs in the request body
     const data = {
       "uid": req.body.uid,

@@ -14,12 +14,16 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage = '';
   bool isLogin = true;
 
+  AuthService instance = AuthService();
+
+  // final String _createdUser = "John Deere";
+
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await AuthService().signInWithEmailAndPassword(email: (_controllerEmail.text), password: _controllerPassword.text);
+      await instance.signInWithEmailAndPassword(email: (_controllerEmail.text), password: _controllerPassword.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -29,11 +33,12 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await AuthService().createUserWithEmailAndPassword(email: _controllerEmail.text, password: _controllerPassword.text);
+      await instance.createUserWithEmailAndPassword(email: _controllerEmail.text, password: _controllerPassword.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
       });
+      // return "Error!";
     }
   }
 
@@ -58,11 +63,23 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _submitButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: ()
+      onPressed: () async
       {
-        isLogin ? signInWithEmailAndPassword() : createUserWithEmailAndPassword();
-        Navigator.push(context,
-        MaterialPageRoute(builder: (context) => First_Page()));
+        // Future<String> id;
+        if (isLogin) {
+          signInWithEmailAndPassword();
+        } else {
+          createUserWithEmailAndPassword();
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => First_Page()));
+          print("Sus");
+          print("Email: ${_controllerEmail.text}");
+          print("Password: ${_controllerPassword.text}");
+          //get firebase user id
+          // print("User ID: $id");
+        }
+        // isLogin ? signInWithEmailAndPassword() : createUserWithEmailAndPassword();
+
       },
       child: Text(isLogin ? 'Login' : 'Register'),
     );
