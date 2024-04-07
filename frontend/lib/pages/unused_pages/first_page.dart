@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:frontend/services/auth_service.dart';
-import 'package:frontend/pages/second_page.dart';
+import 'package:frontend/pages/unused_pages/second_page.dart';
 
 
 class First_Page extends StatelessWidget {
