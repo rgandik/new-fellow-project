@@ -42,3 +42,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 *.lock
+/ios/Runner.xcodeproj
+/ios/Runner.xcworkspace
+/ios/Podfile.lock
