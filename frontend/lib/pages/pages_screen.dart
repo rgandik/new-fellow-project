@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:frontend/pages/your_circles.dart';
 import '../constants.dart';
 import 'explore_screen.dart';
+import 'login_register_page.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 /*
   Responsible for routing between
 
@@ -16,11 +19,11 @@ class PagesScreen extends StatefulWidget {
   const PagesScreen({Key? key}) : super(key: key);
 
   @override
-  _PagesScreenState createState() => _PagesScreenState();
+  PagesScreenState createState() => PagesScreenState();
 }
 
-class _PagesScreenState extends State<PagesScreen> {
-  final PageController _pageController = PageController(initialPage: 1);
+class PagesScreenState extends State<PagesScreen> {
+  final PageController _pageController = PageController(initialPage: 0);
   late List<Widget> _pages;
 
   @override
@@ -28,10 +31,8 @@ class _PagesScreenState extends State<PagesScreen> {
     super.initState();
     _pages = [
       ExploreScreen(),
-      ExploreScreen(),
-      ExploreScreen(),
-      ExploreScreen(),
-      ExploreScreen()
+      YourCirclesPage(),
+      const LoginPage()
     ];
   }
 
@@ -40,9 +41,8 @@ class _PagesScreenState extends State<PagesScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      print(index);
       _pageController.animateToPage(_selectedIndex,
-          duration: const Duration(milliseconds:  200),
+          duration: const Duration(milliseconds: 200),
           curve: Curves.easeIn);
     });
   }
@@ -52,30 +52,31 @@ class _PagesScreenState extends State<PagesScreen> {
       body: PageView(
         controller: _pageController,
         children: _pages,
+        onPageChanged: (int index) {
+          setState(() => _selectedIndex = index);
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Constants.myTeal,
-        unselectedItemColor: Constants.myTeal,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendar',
+        fixedColor: Constants.myOrange,
+        unselectedItemColor: Constants.myGray,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: <BottomNavigationBarItem>[
+          /*BottomNavigationBarItem(
+            icon: Icon(Icons.name),
+            label: 'Name',
+          ),*/
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Explore",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Circles',
+            icon: Icon(MdiIcons.fromString('google-circles')),
+            label: "Circles"
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Message',
-          ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label: "Profile"
           ),
         ],
         currentIndex: _selectedIndex,

@@ -4,6 +4,7 @@ import 'package:frontend/pages/CityCircleFrontPage.dart';
 import 'package:frontend/pages/Explore.dart';
 import 'package:frontend/pages/root_screen.dart';
 import 'package:frontend/widget_tree.dart';
+import 'constants.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if(!Constants.initialized) {
+      Constants().init(context);
+    }
     return MaterialApp(
       // title: 'Flutter Demo',
       theme: ThemeData(

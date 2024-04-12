@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:frontend/constants.dart';
 
 class CreateCircleScreen extends StatefulWidget {
   const CreateCircleScreen({Key? key}) : super(key: key);
@@ -13,9 +15,11 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   // Form key to validate the form
   final _formKey = GlobalKey<FormState>();
   File? _image; // Variable to hold the image file
-  String? activityName;
+  String? activity;
   String? description;
   String? location;
+  String? time;
+  String? size;
   String? category;
   // Function to simulate image upload
   Future<void> _pickImage() async {
@@ -38,10 +42,12 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
       // Pass that link to data
       // Create a map of the data you want to send
       Map<String, dynamic> data = {
-        'activityName': activityName,
+        'activity': activity,
         'description': description,
-        'location': location,
-        'category': category,
+        //'location': location,
+        //'time': time,
+        'size': size,
+        'categories': category,
         // 'image': image_url
         // Add other fields as necessary
       };
@@ -49,11 +55,11 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
       String body = json.encode(data);
       // Send the POST request
       var response = await http.post(
-        Uri.parse('http://localhost:3000/groups'), // Change to the correct endpoint
+        Uri.parse('https://new-fellow-project.vercel.app/groups'), // Change to the correct endpoint
         headers: {"Content-Type": "application/json"},
         body: body,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         // If the server did return a 201 CREATED response,
         // then parse the JSON.
         print('Circle created successfully');
@@ -90,9 +96,13 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
+                /*showDatePicker(
+                    context: context,
+                    firstDate: DateTime(2000, 1, 1),
+                    lastDate: DateTime(2999, 12, 31)),*/
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Activity Name *',
+                    labelText: 'Activity Name',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -101,7 +111,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                     }
                     return null;
                   },
-                  onSaved: (value) => activityName = value,
+                  onSaved: (value) => activity = value,
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -118,6 +128,26 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                     border: OutlineInputBorder(),
                   ),
                   onSaved: (value) => location = value,
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Time',
+                    border: OutlineInputBorder()
+                  ),
+                  onSaved: (value) => time = value,
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  decoration: InputDecoration(
+                      labelText: 'Size',
+                      border: OutlineInputBorder()
+                  ),
+                  onSaved: (value) => size = value,
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -153,7 +183,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   onPressed: _createCircle,
                   child: Text('Create Circle'),
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor,
+                    primary: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 15),
                     textStyle: TextStyle(fontSize: 18),
                   ),
