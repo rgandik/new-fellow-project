@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/CityCircleFrontPage.dart';
+import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/pages/pages_screen.dart';
 
 import '../constants.dart';
@@ -28,9 +28,13 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   // Need to add logic to determine which of these screens the root screen will display!
-  Widget screen = PagesScreen(); // may want to rename this!
+  // Widget screen = PagesScreen(); // may want to rename this!
   // Widget screen = OnboardingScreen(); // currently named citycirclefrontpage, will want to decouple onboarding with auth screens
-  // Widget screen = AuthenticationScreen();
+
+  //Hardcoded
+  //Need to determine which screen to display based
+  //Onboarding,
+  Widget screen = AuthenticationScreen();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

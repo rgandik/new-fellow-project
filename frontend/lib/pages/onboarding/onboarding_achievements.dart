@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/widgets/myEntryField.dart';
-import 'package:frontend/pages/WhenBirthday.dart';
+import 'package:frontend/pages/onboarding/onboarding_birthday.dart';
 
-class ShareYourAchievements extends StatelessWidget {
-  const ShareYourAchievements({Key? key});
+class OnboardingAchievements extends StatelessWidget {
+  const OnboardingAchievements({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class ShareYourAchievements extends StatelessWidget {
                     print('Right button pressed');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => WhenBirthday()),
+                      MaterialPageRoute(builder: (context) => const OnboardingBirthday()),
                     );
                   },
                   child: SvgPicture.asset(

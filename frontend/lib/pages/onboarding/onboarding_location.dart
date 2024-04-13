@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/widgets/myEntryField.dart';
-import 'package:frontend/pages/ShareYourAchievements.dart';
+import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
 
-class WhereAreYouLocated extends StatelessWidget {
-  const WhereAreYouLocated({Key? key});
+class OnboardingLocation extends StatelessWidget {
+  const OnboardingLocation({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class WhereAreYouLocated extends StatelessWidget {
                     print('Right button pressed');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ShareYourAchievements()),
+                      MaterialPageRoute(builder: (context) => const OnboardingAchievements()),
                     );
                   },
                   child: SvgPicture.asset(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/pages/joined_circles.dart';
+import 'package:frontend/pages/profile_screen.dart';
 import '../constants.dart';
 import 'explore_screen.dart';
 import 'your_circles.dart';
-import 'login_register_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 /*
   Responsible for routing between the home pages:
@@ -29,7 +29,7 @@ class PagesScreenState extends State<PagesScreen> {
     _pages = [
       ExploreScreen(),
       YourCircles(),
-      const LoginPage()
+      ProfileScreen(),
     ];
   }
 

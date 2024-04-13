@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
-import 'package:frontend/pages/CityCircleFrontPage.dart';
+import 'package:frontend/pages/authentication_screen.dart';
+import 'package:frontend/pages/onboarding/onboarding_interests.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 
-class WhenBirthday extends StatelessWidget {
-  const WhenBirthday({Key? key});
+class OnboardingBirthday extends StatelessWidget {
+  const OnboardingBirthday({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,7 @@ class WhenBirthday extends StatelessWidget {
                     print('Right button pressed');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CityCircleFrontPage()),
+                      MaterialPageRoute(builder: (context) => const OnboardingInterests()),
                     );
                   },
                   child: SvgPicture.asset(
