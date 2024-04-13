@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../pages/activity_card.dart';
@@ -20,12 +19,12 @@ class CircleCard extends StatefulWidget {
   });
 
   @override
-  _CircleCardState createState() => _CircleCardState();
+  CircleCardState createState() => CircleCardState();
 }
 
 String location = "";
 
-class _CircleCardState extends State<CircleCard> {
+class CircleCardState extends State<CircleCard> {
 
 
   void getLocation() async {
@@ -38,8 +37,6 @@ class _CircleCardState extends State<CircleCard> {
   void initState() {
     super.initState();
     getLocation();
-    print(widget.longitude);
-    print(widget.latitude);
   }
   @override
   Widget build(BuildContext context) {

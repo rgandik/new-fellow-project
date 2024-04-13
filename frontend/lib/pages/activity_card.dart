@@ -64,7 +64,7 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                 // Handle join circle action
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.orange,
+                foregroundColor: Colors.orange,
                 padding: EdgeInsets.symmetric(vertical: 12),
               ),
             ),

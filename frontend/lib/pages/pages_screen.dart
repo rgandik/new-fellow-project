@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:frontend/pages/your_circles.dart';
+import 'package:frontend/pages/joined_circles.dart';
 import '../constants.dart';
 import 'explore_screen.dart';
+import 'your_circles.dart';
 import 'login_register_page.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 /*
-  Responsible for routing between
-
-  The home pages (Explore, Circles, etc.)
-
-  Login/Signup Screen when the session token is not detected (user not authenticated)
-
-  Onboarding Screen which will only happen if the authenticated user is detected as a new user
-
+  Responsible for routing between the home pages:
+    Explore
+    Your Circles base page (carrier for Joined Circles and Created Circles)
+    Profile
  */
 class PagesScreen extends StatefulWidget {
   const PagesScreen({Key? key}) : super(key: key);
@@ -31,7 +28,7 @@ class PagesScreenState extends State<PagesScreen> {
     super.initState();
     _pages = [
       ExploreScreen(),
-      YourCirclesPage(),
+      YourCircles(),
       const LoginPage()
     ];
   }
@@ -46,6 +43,7 @@ class PagesScreenState extends State<PagesScreen> {
           curve: Curves.easeIn);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +53,7 @@ class PagesScreenState extends State<PagesScreen> {
         onPageChanged: (int index) {
           setState(() => _selectedIndex = index);
         },
+        physics: const NeverScrollableScrollPhysics()
       ),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: Constants.myOrange,
