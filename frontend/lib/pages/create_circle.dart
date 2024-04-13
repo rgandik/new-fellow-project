@@ -183,7 +183,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   onPressed: _createCircle,
                   child: Text('Create Circle'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
+                    foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 15),
                     textStyle: TextStyle(fontSize: 18),
                   ),
