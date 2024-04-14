@@ -1,6 +1,7 @@
 // Importing required modules for Express API calls, Firebase authentication and database access, and Swagger API documentation
 const express = require("express");
 const admin = require("firebase-admin");
+const FieldValue = admin.firestore.FieldValue;
 const swaggerJsDoc = require("swagger-jsdoc");
 // Version 4.3.0 of swagger-ui-express installed to prevent issues with Swagger rendering when hosted on Vercel
 const swaggerUi = require("swagger-ui-express");
@@ -319,6 +320,25 @@ app.get("/groups/joined/:user", async (req, res) => {
   }
 })
 
+// GET: Endpoint to view all of the groups a specific user has created
+app.get("/groups/created/:user", async (req, res) => {
+  try {
+    const user = req.params.user
+
+    const snapshot = await db.collection("groups").where("users", "array-contains", user).get();
+
+    let groups = [];
+    snapshot.forEach((doc) => {
+      if (doc.data().users[0] == user) {
+        groups.push(doc.data())
+      }
+    })
+    res.status(200).send(groups);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+})
+
 // GET: Endpoint to view groups with matching category
 // Working on developing into universal sort (activity name, categories, school, company)
 app.get("/groups/sorted/:category", async (req, res) => {
@@ -330,6 +350,26 @@ app.get("/groups/sorted/:category", async (req, res) => {
     let groups = [];
     snapshot.forEach((doc) => {
       groups.push(doc.data())
+    })
+
+    res.status(200).send(groups)
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+})
+
+// GET: Endpoint to view groups containing user search as a substring
+app.get("/groups/searched/:search", async (req, res) => {
+  try {
+    const search = req.params.search.toLowerCase()
+    
+    const snapshot = await db.collection("groups").get();
+
+    let groups = [];
+    snapshot.forEach((doc) => {
+      if (doc.data().activity.toLowerCase().includes(search)) {
+        groups.push(doc.data())
+      }
     })
 
     res.status(200).send(groups)

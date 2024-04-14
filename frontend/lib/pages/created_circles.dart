@@ -11,7 +11,7 @@ class CreatedCircles extends StatefulWidget {
 class CreatedCirclesState extends State<CreatedCircles> {
   List<Map<String, dynamic>> circlesData = [];
   void getUserCircles() async {
-    var url = 'https://new-fellow-project.vercel.app/groups/joined';
+    var url = 'https://new-fellow-project.vercel.app/groups/created';
 
     final response = await http.get(Uri.parse('$url/user'));
     if (response.statusCode == 200) {
