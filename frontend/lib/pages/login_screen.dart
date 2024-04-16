@@ -13,6 +13,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _rememberMe = false;
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             ),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 hintText: 'Your email',
                 border: OutlineInputBorder(
@@ -52,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
             ),
             TextField(
+              controller: _passwordController,
               obscureText: _obscureText,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -85,6 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextButton(
                   onPressed: () {
                     // Add functionality for forgot password
+                    // print()
+                    print(_emailController.text);
+                    print(_passwordController.text);
                   },
                   child: Text('Forgot password?'),
                 ),
