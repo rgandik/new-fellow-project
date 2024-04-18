@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/providers/onboarding_provider.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 import 'package:frontend/pages/onboarding/onboarding_birthday.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingAchievements extends StatelessWidget {
   const OnboardingAchievements({Key? key});
@@ -101,6 +103,18 @@ class OnboardingAchievements extends StatelessWidget {
                     // Handle left button press
                     print('Left button pressed');
                     Navigator.of(context).pop();
+                    // print the value in onboarding provider
+                    // Consumer<Onboarding_Provider>(
+                    //   builder: (context, provider, child) {
+                    //     print("Location: ");
+                    //     // print(provider.locationController.text);
+                    //     return Container();
+                    //     // return Container();
+                    //   },
+                    // );
+                    final provider = Provider.of<Onboarding_Provider>(context, listen: false);
+                    print("Location: ");
+                    print(provider.locationController.text);
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Back Arrow.svg',

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend/pages/root_screen.dart';
 import 'package:frontend/widget_tree.dart';
+import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/onboarding_provider.dart';
 
 final ColorScheme customColorScheme = const ColorScheme(
   secondary: Color(0xFFF06D3D),
@@ -22,11 +25,15 @@ final ColorScheme customColorScheme = const ColorScheme(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  runApp(ChangeNotifierProvider(
+      create: (_) {
+        return Onboarding_Provider();
+      },
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
