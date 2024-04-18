@@ -40,14 +40,6 @@ class AuthenticationScreen extends StatelessWidget {
                       // Add your logic here for when the button is pressed
                       print('Log in button pressed');
                     },
-                    child: Text(
-                      "Log in",
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ), // Set text color
-                    ),
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
                         color: Theme.of(context).primaryColor,
@@ -57,6 +49,14 @@ class AuthenticationScreen extends StatelessWidget {
                         BorderRadius.circular(10), // Set border radius
                       ),
                       padding: EdgeInsets.zero, // Remove padding
+                    ),
+                    child: Text(
+                      "Log in",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ), // Set text color
                     ),
                   ),
                 ),
@@ -76,7 +76,7 @@ class AuthenticationScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 600,
                 color: Theme.of(context).primaryColor,
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -87,7 +87,7 @@ class AuthenticationScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       'Find your circle',
                       style: TextStyle(

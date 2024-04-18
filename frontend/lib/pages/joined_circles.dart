@@ -15,7 +15,7 @@ class JoinedCirclesState extends State<JoinedCircles> {
 
     final response = await http.get(Uri.parse('$url/user'));
     if (response.statusCode == 200) {
-      if(mounted) {
+      if (mounted) {
         setState(() => circlesData = List<Map<String, dynamic>>.from(jsonDecode(response.body)));
       }
     } else {

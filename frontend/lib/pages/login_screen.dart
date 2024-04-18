@@ -3,13 +3,14 @@ import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:frontend/widgets/myButton.dart';
+import 'package:frontend/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _rememberMe = false;
 
@@ -102,13 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
             Align(
               alignment: Alignment.center,
               child: myButton(
-                onPressed: () {
+                onPressed: () async {
                   print("Log in button pressed");
-                  Navigator.push(
+                  /*Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AuthenticationScreen()),
-                  );
+                  );*/
                 },
                 text: 'Log in',
                 // child: Text('Start Finding Circles'),

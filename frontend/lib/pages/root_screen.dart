@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/authentication_screen.dart';
+import 'package:frontend/pages/login_screen.dart';
 import 'package:frontend/pages/pages_screen.dart';
+import 'package:frontend/services/auth_service.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import '../constants.dart';
 import 'explore_screen.dart';
@@ -34,7 +38,34 @@ class _RootScreenState extends State<RootScreen> {
   //Hardcoded
   //Need to determine which screen to display based
   //Onboarding,
+
+  late Map<String, dynamic> userData;
+  void checkOnboardingCompletion() async {
+    var url = 'https://new-fellow-project.vercel.app/users';
+
+    final response = await http.get(Uri.parse('$url/AewbSSalf9fBnjkrKCVZBC0kDM03'));
+    if (response.statusCode == 200) {
+      if (mounted) {
+        setState(() => userData = Map<String, dynamic>.from(jsonDecode(response.body)));
+        print(userData);
+      }
+    } else {
+      throw Exception('Error locating user');
+    }
+  }
+
   Widget screen = AuthenticationScreen();
+
+  /*if (currentUser.uid != null) {
+    checkOnboardingCompletion();
+
+    if (userData.interests != []) {
+
+    }
+  } else {
+    setState(() => screen = AuthenticationScreen());
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
