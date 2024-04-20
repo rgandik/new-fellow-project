@@ -6,6 +6,9 @@ import 'package:frontend/widgets/myButton.dart';
 import 'package:frontend/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key, required this.login}) : super(key: key);
+
+  bool login;
   @override
   LoginScreenState createState() => LoginScreenState();
 }
@@ -21,12 +24,12 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 80.0),
-            Align(
+            const SizedBox(height: 80.0),
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Hi, Welcome!',
@@ -36,8 +39,8 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 32.0),
-            Text(
+            const SizedBox(height: 32.0),
+            const Text(
               'Email address',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
 
@@ -52,7 +55,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 16.0),
-            Text(
+            const Text(
               'Password',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
             ),
@@ -75,7 +78,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               children: [
                 Checkbox(
@@ -86,8 +89,8 @@ class LoginScreenState extends State<LoginScreen> {
                     });
                   },
                 ),
-                Text('Remember me'),
-                Spacer(),
+                const Text('Remember me'),
+                const Spacer(),
                 TextButton(
                   onPressed: () {
                     // Add functionality for forgot password
@@ -99,24 +102,25 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             Align(
               alignment: Alignment.center,
               child: myButton(
                 onPressed: () async {
                   print("Log in button pressed");
-                  /*Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AuthenticationScreen()),
-                  );*/
+                  if(widget.login) {
+                    await AuthService().signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+                  } else {
+                    await AuthService().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+                  }
+                  Navigator.pop(context);
                 },
-                text: 'Log in',
+                text: widget.login ? 'Log in' : 'Sign up',
                 // child: Text('Start Finding Circles'),
               ),
             ),
             SizedBox(height: 200.0),
-            Row(
+            const Row(
               children: [
                 Expanded(
                   child: Divider(
@@ -160,11 +164,11 @@ class LoginScreenState extends State<LoginScreen> {
               alignment: Alignment.center,
               child: TextButton(
                 onPressed: () {
-                  // Add functionality for sign up
+                  setState(() => widget.login = !widget.login);
                 },
                 child: Text(
-                  "Don't have an account? Sign up",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  widget.login ? "Don't have an account? Sign up" : "Already have an account? Log in",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),

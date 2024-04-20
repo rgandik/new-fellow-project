@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/providers/onboarding_provider.dart';
 import 'package:frontend/widgets/myEntryField.dart';
+import 'package:frontend/widgets/userInputField.dart';
 import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingLocation extends StatelessWidget {
-  const OnboardingLocation({Key? key});
+  OnboardingLocation({Key? key});
+
+  TextEditingController locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,7 @@ class OnboardingLocation extends StatelessWidget {
                 const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: myEntryField(),
+                  child: userInputField(controller: locationController),
                 ),
                 const SizedBox(height: 20), // Adjust the spacing between the text field and the image
                 Image.asset(
@@ -96,11 +101,13 @@ class OnboardingLocation extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     // Handle right button press
+                    // print(locationController.text);
                     print('Right button pressed');
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const OnboardingAchievements()),
                     );
+                    context.read<Onboarding_Provider>().updateLocation(locationController.text);
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',

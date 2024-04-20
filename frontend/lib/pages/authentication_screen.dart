@@ -3,6 +3,7 @@ import 'package:frontend/pages/onboarding/onboarding_location.dart';
 import 'package:frontend/pages/profile_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
 import 'package:frontend/constants.dart';
+import 'login_screen.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class AuthenticationScreen extends StatelessWidget {
                   onPressed: () {
                     // Add your logic here for when the button is pressed
                     print('Create Account button pressed');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProfileScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: false)));
                   },
                 ),
                 const SizedBox(height: 17),
@@ -35,7 +36,7 @@ class AuthenticationScreen extends StatelessWidget {
                   child: OutlinedButton(
                     // Change ElevatedButton to OutlinedButton
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  OnboardingLocation()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: true)));
 
                       // Add your logic here for when the button is pressed
                       print('Log in button pressed');

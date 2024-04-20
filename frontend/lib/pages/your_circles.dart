@@ -25,14 +25,6 @@ class YourCirclesState extends State<YourCircles> {
 
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      _pageController.animateToPage(_selectedIndex,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeIn);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +43,16 @@ class YourCirclesState extends State<YourCircles> {
               activeFgColor: Constants.myWhite,
               inactiveBgColor: Constants.myGray,
               inactiveFgColor: Constants.mySilver,
-              initialLabelIndex: 0,
+              initialLabelIndex: _selectedIndex,
               totalSwitches: 2,
               labels: const ['My Circles', 'Created Circles'],
               radiusStyle: true,
               onToggle: (index) {
-                setState(() => _selectedIndex = index!);
+                print(index);
+                _selectedIndex = index!;
+                _pageController.animateToPage(_selectedIndex,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeIn);
               }
             )
           ),

@@ -13,7 +13,7 @@ class JoinedCirclesState extends State<JoinedCircles> {
   void getUserCircles() async {
     var url = 'https://new-fellow-project.vercel.app/groups/joined';
 
-    final response = await http.get(Uri.parse('$url/user'));
+    final response = await http.get(Uri.parse('$url/AewbSSalf9fBnjkrKCVZBC0kDM03'));
     if (response.statusCode == 200) {
       if (mounted) {
         setState(() => circlesData = List<Map<String, dynamic>>.from(jsonDecode(response.body)));

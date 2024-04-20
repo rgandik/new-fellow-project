@@ -17,6 +17,7 @@ class _myEntryFieldState extends State<myEntryField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: _controller,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
