@@ -21,7 +21,7 @@ const ColorScheme customColorScheme = ColorScheme(
   onBackground: Colors.black,
   onError: Colors.white,
   brightness: Brightness.light,
-  primary: Color(0xFF19747E),
+  primary: Color(0xFF354458),
 );
 
 void main() async {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Color(0xFF19747E),
+          primaryColor: Color(0xFF354458),
           colorScheme: customColorScheme,
           fontFamily: "Urbanist",
           textTheme: Theme.of(context).textTheme.apply(fontFamily: "Urbanist"),

@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/providers/onboarding_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 import 'package:frontend/pages/onboarding/onboarding_birthday.dart';
-import 'package:provider/provider.dart';
+import 'package:frontend/widgets/userInputField.dart';
 
-class OnboardingAchievements extends StatelessWidget {
-  const OnboardingAchievements({Key? key});
+class OnboardingAchievements extends StatefulWidget {
+  OnboardingAchievements({Key? key}) : super(key: key);
+
+  @override
+  _OnboardingAchievementsState createState() => _OnboardingAchievementsState();
+}
+
+class _OnboardingAchievementsState extends State<OnboardingAchievements> {
+  TextEditingController companyController = TextEditingController();
+  TextEditingController schoolController = TextEditingController();
+  bool companyError = false;
+  bool schoolError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +86,11 @@ class OnboardingAchievements extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      myEntryField(), // Assuming this is your custom text input widget
+                      userInputField(
+                        controller: companyController,
+                        error: companyError,
+                        errorMessage: 'Please enter company name',
+                      ), // Assuming this is your custom text input widget
                       const SizedBox(height: 30),
                       Text(
                         'School Name',
@@ -86,7 +101,11 @@ class OnboardingAchievements extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      myEntryField(), // Assuming this is your custom text input widget
+                      userInputField(
+                        controller: schoolController,
+                        error: schoolError,
+                        errorMessage: 'Please enter school name',
+                      ), // Assuming this is your custom text input widget
                     ],
                   ),
                 ),
@@ -94,8 +113,9 @@ class OnboardingAchievements extends StatelessWidget {
             ),
           ),
           // Add the buttons row here
+          // const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Row(
               children: [
                 GestureDetector(
@@ -126,10 +146,32 @@ class OnboardingAchievements extends StatelessWidget {
                   onTap: () {
                     // Handle right button press
                     print('Right button pressed');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const OnboardingBirthday()),
-                    );
+                    if (companyController.text.isEmpty) {
+                      setState(() {
+                        companyError = true;
+                      });
+                    } else {
+                      setState(() {
+                        companyError = false;
+                      });
+                    }
+                    if (schoolController.text.isEmpty) {
+                      setState(() {
+                        schoolError = true;
+                      });
+                    } else {
+                      setState(() {
+                        schoolError = false;
+                      });
+                    }
+                    if (!companyError && !schoolError) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const OnboardingBirthday()),
+                      );
+                      context.read<Onboarding_Provider>().updateCompany(companyController.text);
+                      context.read<Onboarding_Provider>().updateSchool(schoolController.text);
+                    }
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',

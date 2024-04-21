@@ -9,6 +9,7 @@ class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key, required this.login}) : super(key: key);
 
   bool login;
+
   @override
   LoginScreenState createState() => LoginScreenState();
 }
@@ -43,7 +44,6 @@ class LoginScreenState extends State<LoginScreen> {
             const Text(
               'Email address',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-
             ),
             TextField(
               controller: _emailController,
@@ -108,10 +108,14 @@ class LoginScreenState extends State<LoginScreen> {
               child: myButton(
                 onPressed: () async {
                   print("Log in button pressed");
-                  if(widget.login) {
-                    await AuthService().signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+                  if (widget.login) {
+                    await AuthService().signInWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text);
                   } else {
-                    await AuthService().createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+                    await AuthService().createUserWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text);
                   }
                   Navigator.pop(context);
                 },
@@ -154,7 +158,10 @@ class LoginScreenState extends State<LoginScreen> {
                 child: Center(
                   child: SignInButton(
                     Buttons.google,
-                    onPressed: () {},
+                    onPressed: () {
+                      //REMOVE THIS LATER ---------------------------
+    
+                    },
                   ),
                 ),
               ),
@@ -167,7 +174,9 @@ class LoginScreenState extends State<LoginScreen> {
                   setState(() => widget.login = !widget.login);
                 },
                 child: Text(
-                  widget.login ? "Don't have an account? Sign up" : "Already have an account? Log in",
+                  widget.login
+                      ? "Don't have an account? Sign up"
+                      : "Already have an account? Log in",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

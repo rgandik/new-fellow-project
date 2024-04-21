@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myEntryField.dart';
-
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/onboarding_provider.dart';
 import 'onboarding_done.dart';
 
 class OnboardingInterests extends StatefulWidget {
@@ -146,6 +147,9 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                     // Handle left button press
                     print('Left button pressed');
                     Navigator.of(context).pop();
+                    final provider = Provider.of<Onboarding_Provider>(context, listen: false);
+                    print("Birthday: ");
+                    print(provider.birthday);
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Back Arrow.svg',

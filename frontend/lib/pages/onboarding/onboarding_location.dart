@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/providers/onboarding_provider.dart';
-import 'package:frontend/widgets/myEntryField.dart';
-import 'package:frontend/widgets/userInputField.dart';
+import 'package:frontend/widgets/userInputField.dart'; // Assuming you've moved your custom text input widget to 'widgets' folder
 import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingLocation extends StatelessWidget {
-  OnboardingLocation({Key? key});
+class OnboardingLocation extends StatefulWidget {
+  OnboardingLocation({Key? key}) : super(key: key);
 
+  @override
+  _OnboardingLocationState createState() => _OnboardingLocationState();
+}
+
+class _OnboardingLocationState extends State<OnboardingLocation> {
   TextEditingController locationController = TextEditingController();
+  bool showError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +74,17 @@ class OnboardingLocation extends StatelessWidget {
                 const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: userInputField(controller: locationController),
+                  child: userInputField(
+                    controller: locationController,
+                    error: showError,
+                    errorMessage: showError ? 'Location is required' : null,
+                  ),
                 ),
-                const SizedBox(height: 20), // Adjust the spacing between the text field and the image
-                Image.asset(
-                  'assets/icons/WhereAreYouLocatedImage.png', // Replace 'location_image.png' with your image path
+                const SizedBox(height: 20),
+                // Adjust the spacing between the text field and the image
+                SvgPicture.asset(
+                  'assets/icons/mapimage.svg',
+                  // Replace 'WhereAreYouLocatedImage.svg' with your SVG image path
                   height: 300, // Adjust the height of the image as needed
                   width: 400, // Make the image take the full width
                   fit: BoxFit.cover, // Adjust the fit of the image as needed
@@ -101,13 +112,21 @@ class OnboardingLocation extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     // Handle right button press
-                    // print(locationController.text);
-                    print('Right button pressed');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const OnboardingAchievements()),
-                    );
-                    context.read<Onboarding_Provider>().updateLocation(locationController.text);
+                    if (locationController.text.isNotEmpty) {
+                      setState(() {
+                        showError = false;
+                      });
+                      print('Right button pressed');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => OnboardingAchievements()),
+                      );
+                      context.read<Onboarding_Provider>().updateLocation(locationController.text);
+                    } else {
+                      setState(() {
+                        showError = true;
+                      });
+                    }
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',
@@ -121,5 +140,26 @@ class OnboardingLocation extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Add listener to the text field to update error state
+    locationController.addListener(updateErrorState);
+  }
+
+  @override
+  void dispose() {
+    // Remove listener when disposing the widget
+    locationController.removeListener(updateErrorState);
+    super.dispose();
+  }
+
+  // Method to update error state based on text field value
+  void updateErrorState() {
+    setState(() {
+      showError = !showError ? false : locationController.text.isEmpty;
+    });
   }
 }
