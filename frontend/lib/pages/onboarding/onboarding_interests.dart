@@ -90,7 +90,8 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                         ),
                         TextSpan(
                           text: " Interests!",
-                          style: TextStyle(color: Constants.myOrange),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       ],
                     ),
@@ -109,11 +110,19 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   ),
                 ),
                 const SizedBox(height: 10), // Added for spacing
-                const Text(
-                  'Creative Labels', // Add your small text here
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  // Adjust the padding as needed
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Creative', // Add your small text here
+                      style: TextStyle(
+                        fontSize: 20,
+                        // color: Colors.grey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10), // Added for spacing
@@ -121,30 +130,33 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   spacing: 8.0,
                   children: creativeLabels
                       .map((label) => FilterChip(
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start, // Align children at the top
+                            label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // Align children at the top
 
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: SvgPicture.asset('assets/icons/AddInterest.svg',
-                              height: 20, width: 20),
-                        ),
-                        Text(label,
-                            style: const TextStyle(
-                              fontSize: 17,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            )),
-                      ],
-                    ),
-                    selected: selectedInterests.contains(label),
-                    backgroundColor: selectedInterests.contains(label)
-                        ? Theme.of(context).primaryColor
-                        : Colors.white,
-                    onSelected: (_) => _toggleInterest(label),
-                  ))
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: SvgPicture.asset(
+                                      'assets/icons/AddInterest.svg',
+                                      height: 20,
+                                      width: 20),
+                                ),
+                                Text(label,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ],
+                            ),
+                            selected: selectedInterests.contains(label),
+                            backgroundColor: selectedInterests.contains(label)
+                                ? Theme.of(context).primaryColor
+                                : Colors.white,
+                            onSelected: (_) => _toggleInterest(label),
+                          ))
                       .toList(),
                 ),
               ],
@@ -160,7 +172,8 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                     // Handle left button press
                     print('Left button pressed');
                     Navigator.of(context).pop();
-                    final provider = Provider.of<Onboarding_Provider>(context, listen: false);
+                    final provider = Provider.of<Onboarding_Provider>(context,
+                        listen: false);
                     print("Birthday: ");
                     print(provider.birthday);
                   },
@@ -176,9 +189,14 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                     print('Right button pressed');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => OnboardingDone()),
+                      MaterialPageRoute(builder: (context) => OnboardingDone()),
                     );
+                    context
+                        .read<Onboarding_Provider>()
+                        .updateSelectedInterests(selectedInterests);
+                    context.read<Onboarding_Provider>().finishOnboarding();
+                    final provider = Provider.of<Onboarding_Provider>(context,
+                        listen: false);
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',
@@ -193,7 +211,6 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
       ),
     );
   }
-
 }
 
 class MyFilterChip extends StatefulWidget {
