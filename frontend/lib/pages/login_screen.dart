@@ -119,11 +119,11 @@ class LoginScreenState extends State<LoginScreen> {
                   }
                   Navigator.pop(context);
                 },
-                text: widget.login ? 'Log in' : 'Sign up',
+                text: widget.login ? 'Log In' : 'Sign Up',
                 // child: Text('Start Finding Circles'),
               ),
             ),
-            SizedBox(height: 200.0),
+            const SizedBox(height: 200.0),
             const Row(
               children: [
                 Expanded(
@@ -144,7 +144,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Center(
               child: Container(
                 width: 200.0, // Set the width as needed

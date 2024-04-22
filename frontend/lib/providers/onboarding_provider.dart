@@ -17,14 +17,26 @@ class Onboarding_Provider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? location() {
+    return locationController.text;
+  }
+
   void updateCompany(String company) {
     companyController.text = company;
     notifyListeners();
   }
 
+  String? company() {
+    return companyController.text;
+  }
+
   void updateSchool(String school) {
     schoolController.text = school;
     notifyListeners();
+  }
+
+  String school() {
+    return schoolController.text;
   }
 
   void updateBirthday(String? selectedMonth, String? selectedDay, String? selectedYear) {
@@ -38,9 +50,25 @@ class Onboarding_Provider extends ChangeNotifier {
     }
   }
 
+  int? day() {
+    return birthday!.day;
+  }
+
+  int? month() {
+    return birthday!.month;
+  }
+
+  int? year() {
+    return birthday!.year;
+  }
+
   void updateSelectedInterests(List<String> interests) {
     selectedInterests = interests;
     notifyListeners();
+  }
+
+  List<String> interests() {
+    return selectedInterests;
   }
 
   void finishOnboarding() {

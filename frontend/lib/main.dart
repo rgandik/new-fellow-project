@@ -52,7 +52,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Color(0xFF354458),
+          primaryColor: const Color(0xFF354458),
+          secondaryHeaderColor: const Color(0xFFF06D3D),
           colorScheme: customColorScheme,
           fontFamily: "Urbanist",
           textTheme: Theme.of(context).textTheme.apply(fontFamily: "Urbanist"),
