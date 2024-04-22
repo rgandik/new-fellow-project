@@ -181,7 +181,10 @@ app.post("/groups", async (req, res) => {
         "minute": Number(req.body.minute)
       },
       "size": Number(req.body.size),
-      "users": req.body.users
+      "platform" : req.body.platform,
+      "gcUrl" : req.body.gcUrl,
+      "users": req.body.users,
+      "distance" : req.body.distance,
     }  
   
     const snapshot = await db.collection("groups").doc().set(data, { merge: true });
