@@ -25,9 +25,9 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   XFile? _imageFile;
   double _maxParticipants = 10;
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;
@@ -39,7 +39,13 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create a Circle'),
+        title: const Text(
+          'Create a Circle',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -123,6 +129,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   },
                 ),
                 SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(
@@ -198,7 +205,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'GroupMe, Slack, or Discord Link',
-                    hintText: 'Insert Invite Link Here',
+                    hintText: 'Insert invite link here',
                     hintStyle: TextStyle(color: kHintColor),
                     fillColor: kTextFieldFillColor,
                     filled: true,
@@ -229,7 +236,9 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                 SizedBox(height: 16),
                 Center(
                   child: InkWell(
-                    onTap: _pickImage,
+                    onTap: () async {
+                      await _pickImage(ImageSource.gallery);
+                    },
                     child: Container(
                       width: 300,
                       height: 300,
@@ -248,6 +257,29 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   ),
                 ),
                 SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton.icon(
+                        onPressed: () async {
+                          await _pickImage(ImageSource.camera);
+                        },
+                        icon: Icon(Icons.camera_alt),
+                        label: Text('Take a Picture'),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextButton.icon(
+                        onPressed: () async {
+                          await _pickImage(ImageSource.gallery);
+                        },
+                        icon: Icon(Icons.image),
+                        label: Text('Upload from Gallery'),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 16),
                 myButton(
                   width: 3000,
