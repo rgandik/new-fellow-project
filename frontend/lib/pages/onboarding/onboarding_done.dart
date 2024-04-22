@@ -5,9 +5,11 @@ import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
 
+import 'package:frontend/providers/onboarding_provider.dart';
 import 'package:frontend/widgets/myButton.dart';
 
 import 'package:frontend/pages/pages_screen.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingDone extends StatelessWidget {
   @override
@@ -53,6 +55,8 @@ class OnboardingDone extends StatelessWidget {
                 child: myButton(
                   onPressed: () {
                     print("Start Finding Circles Pressed");
+                    final provider = Provider.of<Onboarding_Provider>(context, listen: false);
+                    print(provider.selectedInterests);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(

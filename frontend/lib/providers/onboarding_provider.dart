@@ -8,6 +8,8 @@ class Onboarding_Provider extends ChangeNotifier {
   TextEditingController companyController = TextEditingController();
   TextEditingController schoolController = TextEditingController();
   DateTime? birthday;
+  List<String> selectedInterests = [];
+  bool finishedOnboarding = false;
 
 
   void updateLocation(String location) {
@@ -35,5 +37,17 @@ class Onboarding_Provider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void updateSelectedInterests(List<String> interests) {
+    selectedInterests = interests;
+    notifyListeners();
+  }
+
+  void finishOnboarding() {
+    // Add code to finish onboarding
+    finishedOnboarding = true;
+    notifyListeners();
+  }
+
 
 }
