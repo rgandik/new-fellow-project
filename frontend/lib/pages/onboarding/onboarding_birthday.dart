@@ -199,27 +199,34 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
                           onTap: () {
                             // Handle right button press
                             print('Right button pressed');
+                            if (nameController.text.isEmpty) {
+                              setState(() => nameError = true);
+                            } else {
+                              setState(() => nameError = false);
+                            }
                             if (selectedMonth != null &&
                                 selectedDay != null &&
                                 selectedYear != null) {
                               // Hide the error message if all fields are selected
                               setState(() {
                                 showError = false;
-                              });
-                              // Navigate to the next screen
+                            });
+                            if (!nameError && !showError) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => OnboardingInterests()),
                               );
-                              // Update the context
-                              context.read<Onboarding_Provider>().updateBirthday(
-                                  selectedMonth, selectedDay, selectedYear);
+                            }
+                            // Update the context
+                            context.read<Onboarding_Provider>().updateCompany(nameController.text);
+                            context.read<Onboarding_Provider>().updateBirthday(
+                                selectedMonth, selectedDay, selectedYear);
                             } else {
-                              // Show an error message if not all fields are selected
-                              setState(() {
-                                showError = true;
-                              });
+                            // Show an error message if not all fields are selected
+                            setState(() {
+                              showError = true;
+                            });
                             }
                           },
                           child: SvgPicture.asset(
