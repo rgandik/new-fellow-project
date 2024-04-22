@@ -28,8 +28,6 @@ class CircleCardState extends State<CircleCard> {
 
 
   void getLocation() async {
-    print(widget.latitude);
-    print(widget.longitude);
     String tempLocation = (await placemarkFromCoordinates(widget.latitude, widget.longitude)).first.name!;
     if(mounted) {
       setState(() => location = tempLocation);

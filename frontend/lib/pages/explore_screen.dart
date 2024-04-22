@@ -29,7 +29,6 @@ class ExploreScreenState extends State<ExploreScreen> {
   void initState() {
     super.initState();
     getUserCircles();
-
   }
 
   @override
