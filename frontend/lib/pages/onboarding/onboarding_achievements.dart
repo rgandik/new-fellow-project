@@ -184,6 +184,7 @@ class _OnboardingAchievementsState extends State<OnboardingAchievements> {
                             );
                             context.read<Onboarding_Provider>().updateCompany(companyController.text);
                             context.read<Onboarding_Provider>().updateSchool(schoolController.text);
+                            context.read<Onboarding_Provider>().getLocation();
                           }
                         },
                         child: SvgPicture.asset(

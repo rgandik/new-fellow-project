@@ -219,7 +219,7 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
                               );
                             }
                             // Update the context
-                            context.read<Onboarding_Provider>().updateCompany(nameController.text);
+                            context.read<Onboarding_Provider>().updateName(nameController.text);
                             context.read<Onboarding_Provider>().updateBirthday(
                                 selectedMonth, selectedDay, selectedYear);
                             } else {

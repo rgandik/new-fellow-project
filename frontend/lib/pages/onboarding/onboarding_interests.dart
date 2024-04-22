@@ -47,7 +47,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
     });
   }
 
-  Future<bool> createUserProfile(/*String location,*/ String company, String school, String name, int day, int month, int year, List<String> interests, String uid) async {
+  Future<bool> createUserProfile(double latitude, double longitude, String company, String school, String name, int day, int month, int year, List<String> interests, String uid) async {
     var url = 'https://new-fellow-project.vercel.app/users';
 
     final response = await http.post(
@@ -56,7 +56,8 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        //'location': location,
+        'latitude': latitude,
+        'longitude': longitude,
         'company': company,
         'school': school,
         'name': name,
@@ -220,10 +221,11 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                     final provider = Provider.of<Onboarding_Provider>(context,
                         listen: false);
                     createUserProfile(
-                      //provider.location as String,
+                      provider.latitude!,
+                      provider.longitude!,
                       provider.company()!,
-                      provider.school(),
-                      provider.name(),
+                      provider.school()!,
+                      provider.name()!,
                       provider.day()!,
                       provider.month()!,
                       provider.year()!,
