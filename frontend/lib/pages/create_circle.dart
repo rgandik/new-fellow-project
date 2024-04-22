@@ -58,7 +58,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   }
 
   Future<bool> createCircle(String activity, String description, int day, int month, int year, int hour, int minute, double latitude, double longitude, String gcUrl, List<String> categories, String uid, double size) async {
-    var url = 'http://localhost:4000/groups'; //'https://new-fellow-project.vercel.app/groups';
+    var url = 'https://new-fellow-project.vercel.app/groups';
 
     final response = await http.post(
         Uri.parse(url),
