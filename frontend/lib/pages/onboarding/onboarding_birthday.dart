@@ -39,6 +39,7 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
                   Expanded(
                     child: Column(
                       children: [
+                        const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.all(20),
                           child: SvgPicture.asset(
@@ -167,12 +168,12 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
                               ],
                             ),
                           ),
-                        SizedBox(height: showError ? 16 : 40),
+                        SizedBox(height: showError ? 1 : 25),
                         // Adjusted SizedBox height
                         SvgPicture.asset(
                           'assets/icons/birthdayCake.svg',
-                          height: 300,
-                          width: 400,
+                          height: 275,
+                          // width: 400,
                           fit: BoxFit.cover,
                         ),
                       ],
@@ -245,7 +246,7 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
-          width: 2.0,
+          width: 3.0,
         ),
         borderRadius: BorderRadius.circular(5.0),
       ),
