@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/pages/explore_screen.dart';
-
-// The main application entry point and MyApp class are omitted if this is part of a larger app
+import 'package:frontend/pages/login_screen.dart';
+import 'package:frontend/widgets/myButton.dart';
 
 class ActivityCardPage extends StatefulWidget {
-  // Assuming you might want to pass some data to this page
   final String activityImageUrl;
   final String activity;
   final String distance;
@@ -28,62 +28,123 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
     return Scaffold(
       body: Column(
         children: [
-      Expanded(
-      child: Image.network(
-      widget.activityImageUrl,
-        fit: BoxFit.cover,
-      ),
-    ),
-    Container(
-    padding: EdgeInsets.all(16),
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(
-    widget.activity,
-    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-    ),
-      SizedBox(height: 8),
-      Text(
-        '${widget.distance} Distance',
-        style: TextStyle(fontSize: 16, color: Colors.grey),
-      ),
-      SizedBox(height: 16),
-      Text(
-        widget.description,
-        style: TextStyle(fontSize: 16),
-      ),
-      SizedBox(height: 24),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
           Expanded(
-            child: ElevatedButton(
-              child: Text('Join Circle'),
-              onPressed: () {
-                // Handle join circle action
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.orange,
-                padding: EdgeInsets.symmetric(vertical: 12),
+            flex: 2,
+            child: Image.network(
+              widget.activityImageUrl,
+              fit: BoxFit.fill,
+              width: double.infinity,
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.activity,
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/Navigation.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '${widget.distance}',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/Person.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '45',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  SizedBox(
+                    height: 200,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        widget.description,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Poppins', color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center, // Align buttons to the center
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center, // Align buttons to the center
+                        children: [
+                          myButton(
+                            text: 'Join Circle',
+                            onPressed: () {
+                              print('Join Circle Button pressed');
+                            },
+                          ),
+                          SizedBox(height: 19),
+                          SizedBox(
+                            width: 333,
+                            height: 41,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        LoginScreen(login: true),
+                                  ),
+                                );
+
+                                print('Log in button pressed');
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                "Go Back",
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          SizedBox(width: 16),
-          Expanded(
-            child: OutlinedButton(
-              child: Text('Go Back'),
-              onPressed: () => Navigator.pop(context),
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-    ),
-    ),
         ],
       ),
     );
