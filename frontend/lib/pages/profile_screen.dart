@@ -11,7 +11,13 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           // Add an icon or widget for notifications (if needed)
           IconButton(
@@ -75,6 +81,7 @@ class ProfileScreen extends StatelessWidget {
                 title: Text('Account'),
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
+                  print("Auth Service will sign out");
                   AuthService().signOut();
                   ProfileProvider().notOnboarded();
                    /*Navigator.push(

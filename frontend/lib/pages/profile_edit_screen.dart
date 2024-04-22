@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfileEditScreen extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  File? _image;
 
   @override
   void dispose() {
@@ -22,11 +25,27 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     super.dispose();
   }
 
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -47,17 +66,46 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 Center(
                   child: CircleAvatar(
                     radius: 60.0,
-                    backgroundImage: AssetImage('assets/images/profileimage.png'),
+                    backgroundImage: _image != null
+                        ? FileImage(_image!) as ImageProvider<Object>
+                        : AssetImage('assets/images/profileimage.png') as ImageProvider<Object>,
                   ),
                 ),
+
                 SizedBox(height: 16.0),
                 Center(
                   child: TextButton.icon(
                     onPressed: () {
-                      // Add functionality for changing picture
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SafeArea(
+                            child: Wrap(
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Icon(Icons.camera_alt),
+                                  title: Text('Take a Picture'),
+                                  onTap: () {
+                                    _pickImage(ImageSource.camera);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.image),
+                                  title: Text('Upload from Gallery'),
+                                  onTap: () {
+                                    _pickImage(ImageSource.gallery);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                     icon: Icon(Icons.camera_alt),
-                    label: Text('Change Picture'),
+                    label: Text('Upload Profile Picture'),
                   ),
                 ),
                 SizedBox(height: 32.0),
