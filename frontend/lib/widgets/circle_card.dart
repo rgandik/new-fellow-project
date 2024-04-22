@@ -65,7 +65,10 @@ class CircleCardState extends State<CircleCard> {
                               activityImageUrl: widget.imageUrl,
                               activity: widget.activity,
                               distance: "2",
-                              description: widget.description
+                              description: widget.description,
+                              linkType: "Slack",
+                              groupLink: "https://www.google.com",
+
                               // onTapped: () {
                               //   Navigator.of(context).pop();
                               // }

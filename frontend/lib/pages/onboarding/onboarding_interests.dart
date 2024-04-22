@@ -34,7 +34,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
       if (selectedInterests.contains(interest)) {
         selectedInterests.remove(interest);
       } else {
-        if (selectedInterests.length < 6) {
+        if (selectedInterests.length <= 6) {
           selectedInterests.add(interest);
         }
       }
@@ -51,22 +51,22 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
     var url = 'https://new-fellow-project.vercel.app/users';
 
     final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'latitude': latitude,
-        'longitude': longitude,
-        'company': company,
-        'school': school,
-        'name': name,
-        'day': day,
-        'month': month,
-        'year': year,
-        'interests': interests,
-        'uid': uid
-      })
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'latitude': latitude,
+          'longitude': longitude,
+          'company': company,
+          'school': school,
+          'name': name,
+          'day': day,
+          'month': month,
+          'year': year,
+          'interests': interests,
+          'uid': uid
+        })
     );
     if (response.statusCode == 201) {
       print(response.body);
@@ -151,33 +151,149 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   spacing: 8.0,
                   children: creativeLabels
                       .map((label) => FilterChip(
-                            label: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // Align children at the top
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // Align children at the top
 
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: SvgPicture.asset(
-                                      'assets/icons/AddInterest.svg',
-                                      height: 20,
-                                      width: 20),
-                                ),
-                                Text(label,
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    )),
-                              ],
-                            ),
-                            selected: selectedInterests.contains(label),
-                            backgroundColor: selectedInterests.contains(label)
-                                ? Theme.of(context).primaryColor
-                                : Colors.white,
-                            onSelected: (_) => _toggleInterest(label),
-                          ))
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: SvgPicture.asset(
+                              'assets/icons/AddInterest.svg',
+                              height: 20,
+                              width: 20),
+                        ),
+                        Text(label,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            )),
+                      ],
+                    ),
+                    selected: selectedInterests.contains(label),
+                    backgroundColor: selectedInterests.contains(label)
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    onSelected: (_) => _toggleInterest(label),
+                  ))
+                      .toList(),
+                ),
+                const SizedBox(height: 20), // Added for spacing
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  // Adjust the padding as needed
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Athletic', // Add the "Athletic" section title
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10), // Added for spacing
+                Wrap(
+                  spacing: 8.0,
+                  children: [
+                    'Soccer',
+                    'Basketball',
+                    'Running',
+                    'Yoga',
+                    'Cycling',
+                    'Swimming',
+                    // Add more athletic labels as needed
+                  ]
+                      .map((label) => FilterChip(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: SvgPicture.asset(
+                            'assets/icons/AddInterest.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                        ),
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    selected: selectedInterests.contains(label),
+                    backgroundColor: selectedInterests.contains(label)
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    onSelected: (_) => _toggleInterest(label),
+                  ))
+                      .toList(),
+                ),
+                const SizedBox(height: 20), // Added for spacing
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  // Adjust the padding as needed
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Amusement', // Add the "Athletic" section title
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10), // Added for spacing
+                Wrap(
+                  spacing: 8.0,
+                  children: [
+                    'Parks',
+                    'Carnivals',
+                    'Circuses',
+                    'Magic',
+                    'Comedy',
+                    'Museums',
+                    // Add more amusement labels as needed
+                  ]
+                      .map((label) => FilterChip(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: SvgPicture.asset(
+                            'assets/icons/AddInterest.svg',
+                            height: 20,
+                            width: 20,
+                          ),
+                        ),
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    selected: selectedInterests.contains(label),
+                    backgroundColor: selectedInterests.contains(label)
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    onSelected: (_) => _toggleInterest(label),
+                  ))
                       .toList(),
                 ),
               ],
@@ -221,16 +337,16 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                     final provider = Provider.of<Onboarding_Provider>(context,
                         listen: false);
                     createUserProfile(
-                      provider.latitude!,
-                      provider.longitude!,
-                      provider.company()!,
-                      provider.school()!,
-                      provider.name()!,
-                      provider.day()!,
-                      provider.month()!,
-                      provider.year()!,
-                      selectedInterests,
-                      authProvider.uid()!
+                        provider.latitude!,
+                        provider.longitude!,
+                        provider.company()!,
+                        provider.school()!,
+                        provider.name()!,
+                        provider.day()!,
+                        provider.month()!,
+                        provider.year()!,
+                        selectedInterests,
+                        authProvider.uid()!
                     );
                   },
                   child: SvgPicture.asset(

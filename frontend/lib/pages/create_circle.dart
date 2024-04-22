@@ -29,6 +29,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   late double latitude;
   late double longitude;
   String _groupLink = '';
+  String _linkType = '';
   String _category = '';
   XFile? _imageFile;
   double _maxParticipants = 10;
@@ -272,6 +273,28 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                   ),
                   onSaved: (value) {
                     _groupLink = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Link Type',
+                    hintText: 'Please enter the link type (GroupMe, Slack, etc.)',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the link type (GroupMe, Slack, etc.)';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _linkType = value!;
                   },
                 ),
                 SizedBox(height: 16),

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/pages/explore_screen.dart';
 import 'package:frontend/pages/login_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Define a global variable for horizontal margin
 const double horizontalMargin = 25.0;
@@ -12,6 +13,8 @@ class ActivityCardPage extends StatefulWidget {
   final String activity;
   final String distance;
   final String description;
+  final String linkType;
+  final String groupLink;
 
   ActivityCardPage({
     Key? key,
@@ -19,6 +22,8 @@ class ActivityCardPage extends StatefulWidget {
     required this.activity,
     required this.distance,
     required this.description,
+    required this.linkType,
+    required this.groupLink,
   }) : super(key: key);
 
   @override
@@ -90,9 +95,37 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/message.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      SizedBox(width: 6),
+                      GestureDetector(
+                        onTap: () async {
+                          if (await canLaunchUrl(Uri.parse(widget.groupLink))) {
+                            await launchUrl(Uri.parse(widget.groupLink));
+                          } else {
+                            throw 'Could not launch ${widget.groupLink}';
+                          }
+                        },
+                        child: Text(
+                          widget.linkType,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.orange,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 16),
                   SizedBox(
-                    height: 200,
+                    height: 140,
                     child: SingleChildScrollView(
                       child: Text(
                         widget.description,
@@ -130,7 +163,9 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                               },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -140,7 +175,9 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                               child: Text(
                                 "Go Back",
                                 style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme
+                                      .of(context)
+                                      .primaryColor,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
