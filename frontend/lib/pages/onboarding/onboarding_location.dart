@@ -123,15 +123,30 @@ class _OnboardingLocationState extends State<OnboardingLocation> {
                         onTap: () {
                           // Handle right button press
                           if (locationController.text.isNotEmpty) {
+                            context.read<Onboarding_Provider>().updateLocation(locationController.text);
                             setState(() {
                               showError = false;
                             });
                             print('Right button pressed');
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => OnboardingAchievements()),
+                              MaterialPageRoute(builder: (context) =>
+                                  OnboardingAchievements()),
                             );
-                            context.read<Onboarding_Provider>().updateLocation(locationController.text);
+                            /*Future<bool> locationExists = context.read<Onboarding_Provider>().getLocation();
+                            if (locationExists == true) {
+                              setState(() {
+                                showError = false;
+                              });
+                              print('Right button pressed');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>
+                                    OnboardingAchievements()),
+                              );
+                            } else {
+                              setState(() => showError = true);
+                            }*/
                           } else {
                             setState(() {
                               showError = true;

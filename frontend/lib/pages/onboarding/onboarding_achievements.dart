@@ -101,6 +101,7 @@ class _OnboardingAchievementsState extends State<OnboardingAchievements> {
                               controller: companyController,
                               error: companyError,
                               errorMessage: 'Please enter company name',
+                              hintText: 'Citadel',
                             ), // Assuming this is your custom text input widget
                             const SizedBox(height: 30),
                             Text(

@@ -1,10 +1,11 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 // import 'package:provider'
 
 class Onboarding_Provider extends ChangeNotifier {
   TextEditingController locationController = TextEditingController();
+  double? latitude;
+  double? longitude;
   TextEditingController companyController = TextEditingController();
   TextEditingController schoolController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -18,8 +19,25 @@ class Onboarding_Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? location() {
-    return locationController.text;
+  void getLocation() async {
+    List<Location> tempLocation = (await locationFromAddress(locationController.text));
+    /*if (tempLocation[0].latitude.isNaN) {
+      return false;
+    } else {
+      return true;
+    }*/
+    latitude = double.parse(tempLocation[0].latitude.toString());
+    longitude = double.parse(tempLocation[0].longitude.toString());
+    print(latitude);
+    print(longitude);
+    }
+
+  double? locationLat() {
+    return latitude;
+  }
+
+  double? locationLon() {
+    return longitude;
   }
 
   void updateCompany(String company) {
@@ -36,7 +54,7 @@ class Onboarding_Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String school() {
+  String? school() {
     return schoolController.text;
   }
 
@@ -45,7 +63,7 @@ class Onboarding_Provider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String name() {
+  String? name() {
     return nameController.text;
   }
 
