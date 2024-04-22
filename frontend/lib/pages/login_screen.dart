@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
 import 'package:sign_in_button/sign_in_button.dart';
+import 'package:frontend/widgets/myButton.dart';
 import 'package:frontend/services/auth_service.dart';
-import 'package:frontend/widgets/userInputField.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key, required this.login}) : super(key: key);
@@ -49,32 +50,39 @@ class LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 32.0),
                   const Text(
                     'Email Address',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
                   ),
-                  userInputField(
+                  TextField(
                     controller: _emailController,
-                    hintText: 'janedoe@gmail.com',
+                    decoration: InputDecoration(
+                      hintText: 'Your email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 16.0),
                   const Text(
                     'Password',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
                   ),
-                  userInputField(
+                  TextField(
                     controller: _passwordController,
-                    hintText: 'supersecretpassword',
                     obscureText: _obscureText,
-                    suffixIcon: IconButton(
-                      icon: Icon(!_obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                            !_obscureText ? Icons.visibility : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16.0),
@@ -106,45 +114,20 @@ class LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.center,
                     child: myButton(
                       onPressed: () async {
-                        print(widget.login
-                            ? "Log in button pressed"
-                            : "Sign up button pressed");
-                        print("authserivce emssage" +
-                            AuthService().errorMessage.toString());
-
+                        print("Log in button pressed");
                         if (widget.login) {
-                          bool loggedIn =
-                              await AuthService().signInWithEmailAndPassword(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  onError: (errorMessage) {
-                                    setState(() {
-                                      AuthService()
-                                          .setErrorMessage(errorMessage);
-                                    });
-                                  });
-                          if (loggedIn) {
-                            Navigator.pop(
-                                context); // Pop only if login is successful
-                          }
+                          await AuthService().signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text);
                         } else {
-                          bool signedUp = await AuthService()
-                              .createUserWithEmailAndPassword(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  onError: (errorMessage) {
-                                    setState(() {
-                                      AuthService()
-                                          .setErrorMessage(errorMessage);
-                                    });
-                                  });
-                          if (signedUp) {
-                            Navigator.pop(
-                                context); // Pop only if sign up is successful
-                          }
+                          await AuthService().createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text);
                         }
+                        Navigator.pop(context);
                       },
                       text: widget.login ? 'Log in' : 'Sign up',
+                      // child: Text('Start Finding Circles'),
                       width: 3000.0,
                     ),
                   ),
@@ -174,11 +157,18 @@ class LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       width: 200.0, // Set the width as needed
                       height: 70.0, // Set the height as needed
+                      // decoration: BoxDecoration(
+                      //   border: Border.all(
+                      //     color: Colors.black, // Set the border color as needed
+                      //     width: 2.0, // Set the border width as needed
+                      //   ),
+                      // ),
                       child: Center(
                         child: SignInButton(
                           Buttons.google,
                           onPressed: () {
                             //REMOVE THIS LATER ---------------------------
+                
                           },
                         ),
                       ),
@@ -199,15 +189,6 @@ class LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  // Display error message from AuthService
-                  if (AuthService().errorMessage != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Text(
-                        AuthService().errorMessage!,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
                 ],
               ),
             ),
