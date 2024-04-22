@@ -106,17 +106,17 @@ class _OnboardingLocationState extends State<OnboardingLocation> {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Handle left button press
-                          print('Left button pressed');
-                          Navigator.of(context).pop();
-                        },
-                        child: SvgPicture.asset(
-                          'assets/icons/Back Arrow.svg',
-                          height: 65, // Adjust the height as needed
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     // Handle left button press
+                      //     print('Left button pressed');
+                      //     Navigator.of(context).pop();
+                      //   },
+                      //   child: SvgPicture.asset(
+                      //     'assets/icons/Back Arrow.svg',
+                      //     height: 65, // Adjust the height as needed
+                      //   ),
+                      // ),
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
