@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:frontend/widgets/myButton.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 // Constants
 const kBorderRadius = 10.0;
@@ -20,10 +26,13 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   DateTime _eventDate = DateTime.now();
   TimeOfDay _eventTime = TimeOfDay.now();
   String _location = '';
+  late double latitude;
+  late double longitude;
   String _groupLink = '';
   String _category = '';
   XFile? _imageFile;
   double _maxParticipants = 10;
+  //String uid = AuthProvider().uid()!;
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -32,6 +41,54 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
       setState(() {
         _imageFile = pickedFile;
       });
+    }
+  }
+
+  Future<void> getLocation() async {
+    List<Location> tempLocation = (await locationFromAddress(_location));
+    /*if (tempLocation[0].latitude.isNaN) {
+      return false;
+    } else {
+      return true;
+    }*/
+    latitude = double.parse(tempLocation[0].latitude.toString());
+    longitude = double.parse(tempLocation[0].longitude.toString());
+    print(latitude);
+    print(longitude);
+  }
+
+  Future<bool> createCircle(String activity, String description, int day, int month, int year, int hour, int minute, double latitude, double longitude, String gcUrl, List<String> categories, String uid, double size) async {
+    var url = 'http://localhost:4000/groups'; //'https://new-fellow-project.vercel.app/groups';
+
+    final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'activity': activity,
+          'description': description,
+          'day': day,
+          'month': month,
+          'year': year,
+          'hour': hour,
+          'minute': minute,
+          'latitude': latitude,
+          'longitude': longitude,
+          'gcUrl': gcUrl,
+          'categories': categories,
+          'users': [uid],
+          'size': size,
+          'imageUrl': 'https://picsum.photos/200'
+        })
+    );
+    if (response.statusCode == 201) {
+      print(response.body);
+      return true;
+    } else {
+      print("Error creating group");
+      print(response.body);
+      return false;
     }
   }
 
@@ -284,7 +341,9 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                 myButton(
                   width: 3000,
                   text: 'Create Circle',
-                  onPressed: () {
+                  onPressed: () async {
+                    AuthProvider authProvider = Provider.of<AuthProvider>(context,
+                        listen: false);
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // Perform the necessary actions with the form data
@@ -295,6 +354,25 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                       print('Group Link: $_groupLink');
                       print('Max Participants: $_maxParticipants');
                       print('Image File: ${_imageFile?.path}');
+                    }
+                    await getLocation();
+                    bool created = await createCircle(
+                      _activityName,
+                      _eventDescription,
+                      _eventDate.day,
+                      _eventDate.month,
+                      _eventDate.year,
+                      _eventTime.hour,
+                      _eventTime.minute,
+                      latitude,
+                      longitude,
+                      _groupLink,
+                      [_category],
+                      authProvider.uid()!,
+                      _maxParticipants
+                    );
+                    if (created == true) {
+                      Navigator.pop(context);
                     }
                   },
                 ),
