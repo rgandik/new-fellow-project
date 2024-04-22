@@ -103,7 +103,7 @@ class _OnboardingBirthdayState extends State<OnboardingBirthday> {
                                       controller: nameController,
                                       error: nameError,
                                       errorMessage: 'Please enter your name',
-                                      hintText: 'Tyler',
+                                      hintText: 'Jane Doe',
                                     ),
                                     const SizedBox(height: 20),
                                     Row(

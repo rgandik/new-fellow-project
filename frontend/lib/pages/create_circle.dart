@@ -1,193 +1,272 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:frontend/constants.dart';
+import 'package:frontend/widgets/myButton.dart';
+
+// Constants
+const kBorderRadius = 10.0;
+const kHintColor = Colors.grey;
+const kTextFieldFillColor = Colors.white;
 
 class CreateCircleScreen extends StatefulWidget {
-  const CreateCircleScreen({Key? key}) : super(key: key);
-
   @override
   _CreateCircleScreenState createState() => _CreateCircleScreenState();
 }
-class _CreateCircleScreenState extends State<CreateCircleScreen> {
-  // Form key to validate the form
-  final _formKey = GlobalKey<FormState>();
-  File? _image; // Variable to hold the image file
-  String? activity;
-  String? description;
-  String? location;
-  String? time;
-  String? size;
-  String? category;
-  // Function to simulate image upload
-  Future<void> _pickImage() async {
-    // Use image picker package to pick the image
-    // For example:
-    // final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
-    // setState(() {
-    //   if (pickedFile != null) {
-    //     _image = File(pickedFile.path);
-    //   }
-    // });
-  }
-  // Function to create the circle
-  void _createCircle() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
 
-      // Take the image received from image picker and upload it to Firebase storage
-      // This will likely return a link to that image (put in a groups/ folder)
-      // Pass that link to data
-      // Create a map of the data you want to send
-      Map<String, dynamic> data = {
-        'activity': activity,
-        'description': description,
-        //'location': location,
-        //'time': time,
-        'size': size,
-        'categories': category,
-        // 'image': image_url
-        // Add other fields as necessary
-      };
-      // Encode the data to JSON
-      String body = json.encode(data);
-      // Send the POST request
-      var response = await http.post(
-        Uri.parse('https://new-fellow-project.vercel.app/groups'), // Change to the correct endpoint
-        headers: {"Content-Type": "application/json"},
-        body: body,
-      );
-      if (response.statusCode == 201) {
-        // If the server did return a 201 CREATED response,
-        // then parse the JSON.
-        print('Circle created successfully');
-      } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
-        throw Exception('Failed to create circle');
-      }
+class _CreateCircleScreenState extends State<CreateCircleScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _activityName = '';
+  String _eventDescription = '';
+  DateTime _eventDate = DateTime.now();
+  TimeOfDay _eventTime = TimeOfDay.now();
+  String _location = '';
+  String _groupLink = '';
+  String _category = '';
+  XFile? _imageFile;
+  double _maxParticipants = 10;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = pickedFile;
+      });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create New Activity'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: const Text('Create a Circle'),
       ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  'Create a Circle!',
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Max Amount Of Participants',
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20),
-                /*showDatePicker(
-                    context: context,
-                    firstDate: DateTime(2000, 1, 1),
-                    lastDate: DateTime(2999, 12, 31)),*/
+                Row(
+                  children: [
+                    Expanded(
+                      child: Slider(
+                        value: _maxParticipants,
+                        min: 2,
+                        max: 50,
+                        divisions: 48,
+                        label: _maxParticipants.round().toString(),
+                        onChanged: (value) {
+                          setState(() {
+                            _maxParticipants = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Text(
+                      _maxParticipants.round().toString(),
+                      style: const TextStyle(color: kHintColor),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Activity Name',
-                    border: OutlineInputBorder(),
+                    hintText: 'Please enter an activity name',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the activity name';
+                    if (value!.isEmpty) {
+                      return 'Please enter an activity name';
                     }
                     return null;
                   },
-                  onSaved: (value) => activity = value,
+                  onSaved: (value) {
+                    _activityName = value!;
+                  },
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Describe your event',
-                    border: OutlineInputBorder(),
+                    hintText: 'Please describe your event',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
                   ),
-                  onSaved: (value) => description = value,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please describe your event';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _eventDescription = value!;
+                  },
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () async {
+                          final pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: _eventDate,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2100),
+                          );
+                          if (pickedDate != null) {
+                            setState(() {
+                              _eventDate = pickedDate;
+                            });
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_today),
+                            SizedBox(width: 8),
+                            Text(
+                              '${_eventDate.month}/${_eventDate.day}/${_eventDate.year}',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: Text(
+                          '${_eventTime.hourOfPeriod.toString().padLeft(2, '0')}:${_eventTime.minute.toString().padLeft(2, '0')} ${_eventTime.period.name.toUpperCase()}',
+                        ),
+                        trailing: Icon(Icons.access_time),
+                        onTap: () async {
+                          final pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: _eventTime,
+                          );
+                          if (pickedTime != null) {
+                            setState(() {
+                              _eventTime = pickedTime;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Location',
-                    border: OutlineInputBorder(),
-                  ),
-                  onSaved: (value) => location = value,
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Time',
-                    border: OutlineInputBorder()
-                  ),
-                  onSaved: (value) => time = value,
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: InputDecoration(
-                      labelText: 'Size',
-                      border: OutlineInputBorder()
-                  ),
-                  onSaved: (value) => size = value,
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Category (Optional)',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.arrow_drop_down),
-                  ),
-                  onSaved: (value) => category = value,
-                ),
-                SizedBox(height: 20),
-                InkWell(
-                  onTap: _pickImage,
-                  child: Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
+                    hintText: 'Please enter a location',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
                     ),
-                    child: _image == null
-                        ? Icon(Icons.image, size: 50, color: Colors.grey[500])
-                        : Image.file(_image!),
-                    alignment: Alignment.center,
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a location';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _location = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'GroupMe, Slack, or Discord Link',
+                    hintText: 'Insert Invite Link Here',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                  ),
+                  onSaved: (value) {
+                    _groupLink = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Category',
+                    hintText: 'Put interest categories separated by commas',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                  ),
+                  onSaved: (value) {
+                    _category = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                Center(
+                  child: InkWell(
+                    onTap: _pickImage,
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(kBorderRadius),
+                        border: Border.all(color: Colors.black, width: 1),
+                      ),
+                      child: _imageFile == null
+                          ? Icon(Icons.camera_alt, size: 50)
+                          : Image.file(
+                        File(_imageFile!.path),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 8),
-                TextButton(
-                  onPressed: _pickImage,
-                  child: Text('Upload Image'),
+                SizedBox(height: 16),
+                SizedBox(height: 16),
+                myButton(
+                  width: 3000,
+                  text: 'Create Circle',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      // Perform the necessary actions with the form data
+                      print('Activity Name: $_activityName');
+                      print('Event Description: $_eventDescription');
+                      print('Event Time: ${_eventTime.format(context)}');
+                      print('Location: $_location');
+                      print('Group Link: $_groupLink');
+                      print('Max Participants: $_maxParticipants');
+                      print('Image File: ${_imageFile?.path}');
+                    }
+                  },
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _createCircle,
-                  child: Text('Create Circle'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    textStyle: TextStyle(fontSize: 18),
-                  ),
-                ),
+                SizedBox(height: 34),
               ],
             ),
           ),
