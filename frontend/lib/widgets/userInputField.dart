@@ -5,12 +5,16 @@ class userInputField extends StatefulWidget {
   final bool error;
   final String? errorMessage;
   final String? hintText;
+  final bool obscureText;
+  final Widget? suffixIcon;
 
   userInputField({
     required this.controller,
     this.error = false,
     this.errorMessage,
     this.hintText = 'Search',
+    this.obscureText = false,
+    this.suffixIcon,
   });
 
   @override
@@ -25,6 +29,7 @@ class _userInputFieldState extends State<userInputField> {
       children: [
         TextField(
           controller: widget.controller,
+          obscureText: widget.obscureText,
           decoration: InputDecoration(
             filled: true,
             // fillColor: widget.error ? Colors.red.withOpacity(0.1) : Colors.white,
@@ -35,6 +40,7 @@ class _userInputFieldState extends State<userInputField> {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black, width: 3.0),
             ),
+            suffixIcon: widget.suffixIcon,
           ),
         ),
         if (widget.error && widget.errorMessage != null)
