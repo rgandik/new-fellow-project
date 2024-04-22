@@ -33,7 +33,6 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   String _category = '';
   XFile? _imageFile;
   double _maxParticipants = 10;
-  //String uid = AuthProvider().uid()!;
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
