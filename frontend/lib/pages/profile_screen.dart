@@ -75,11 +75,11 @@ class ProfileScreen extends StatelessWidget {
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
                   AuthService().signOut();
-                   Navigator.push(
+                   /*Navigator.push(
                      context,
                      MaterialPageRoute(
                          builder: (context) => const AuthenticationScreen())
-                  );
+                  );*/
                   // Add functionality for account
                 },
               ),

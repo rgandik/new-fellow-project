@@ -45,9 +45,15 @@ class ExploreScreenState extends State<ExploreScreen> {
         ),
         elevation: 0,
         centerTitle: false,
+        toolbarHeight: 90
       ),
       body: CustomScrollView(
         slivers: [
+          /*const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 10
+            ),
+          ),*/
           SliverAppBar(
             pinned: true,
             title: Padding(
@@ -87,6 +93,11 @@ class ExploreScreenState extends State<ExploreScreen> {
                   ),
                 ]
               ),
+            )
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 30
             )
           ),
           SliverList(
