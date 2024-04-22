@@ -53,11 +53,11 @@ class OnboardingDone extends StatelessWidget {
                 child: myButton(
                   onPressed: () {
                     print("Start Finding Circles Pressed");
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const PagesScreen()),
-                    // );
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                           builder: (context) => const PagesScreen()),
+                     );
                     // Need to let the root screen know to re-check if finished onboarding
                     // Maybe change the futurebuilder to instead be based on the value of some provider that stores user information
                   },

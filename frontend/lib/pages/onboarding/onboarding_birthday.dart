@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/constants.dart';
-import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/pages/onboarding/onboarding_interests.dart';
-import 'package:frontend/widgets/myEntryField.dart';
+import 'package:frontend/providers/onboarding_provider.dart';
+import 'package:provider/provider.dart';
 
-class OnboardingBirthday extends StatelessWidget {
-  const OnboardingBirthday({Key? key});
+class OnboardingBirthday extends StatefulWidget {
+  const OnboardingBirthday({Key? key}) : super(key: key);
+
+  @override
+  _OnboardingBirthdayState createState() => _OnboardingBirthdayState();
+}
+
+class _OnboardingBirthdayState extends State<OnboardingBirthday> {
+  String? selectedMonth;
+  String? selectedDay;
+  String? selectedYear;
+  bool showError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,28 +78,42 @@ class OnboardingBirthday extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             const SizedBox(height: 10),
                             Row(
                               children: [
                                 Expanded(
                                   child: _buildDropdownField(
-                                    hint: 'MM',
+                                    hint: selectedMonth ?? 'MM',
                                     items: _buildMonthItems(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedMonth = value;
+                                      });
+                                    },
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: _buildDropdownField(
-                                    hint: 'DD',
+                                    hint: selectedDay ?? 'DD',
                                     items: _buildDayItems(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedDay = value;
+                                      });
+                                    },
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: _buildDropdownField(
-                                    hint: 'YYYY',
+                                    hint: selectedYear ?? 'YYYY',
                                     items: _buildYearItems(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedYear = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ],
@@ -100,10 +124,34 @@ class OnboardingBirthday extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 20),
+                // Added SizedBox
+                if (showError)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Row(
+                      children: [
+                        Icon(Icons.error_outline, color: Colors.red),
+                        SizedBox(width: 10),
+                        Text(
+                          'Please select all fields',
+                          style: TextStyle(color: Colors.red, fontSize: 16),
+
+                        ),
+                      ],
+                    ),
+                  ),
+                SizedBox(height: showError ? 16 : 40),
+                // Adjusted SizedBox height
+                SvgPicture.asset(
+                  'assets/icons/birthdayCake.svg',
+                  height: 300,
+                  width: 400,
+                  fit: BoxFit.cover,
+                ),
               ],
             ),
           ),
-          // Add the buttons row here
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
@@ -116,7 +164,7 @@ class OnboardingBirthday extends StatelessWidget {
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Back Arrow.svg',
-                    height: 65, // Adjust the height as needed
+                    height: 65,
                   ),
                 ),
                 const Spacer(),
@@ -124,15 +172,32 @@ class OnboardingBirthday extends StatelessWidget {
                   onTap: () {
                     // Handle right button press
                     print('Right button pressed');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const OnboardingInterests()),
-                    );
+                    if (selectedMonth != null &&
+                        selectedDay != null &&
+                        selectedYear != null) {
+                      // Hide the error message if all fields are selected
+                      setState(() {
+                        showError = false;
+                      });
+                      // Navigate to the next screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OnboardingInterests()),
+                      );
+                      // Update the context
+                      context.read<Onboarding_Provider>().updateBirthday(
+                          selectedMonth, selectedDay, selectedYear);
+                    } else {
+                      // Show an error message if not all fields are selected
+                      setState(() {
+                        showError = true;
+                      });
+                    }
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',
-                    height: 65, // Adjust the height as needed
-                    // width: , // Adjust the width as needed
+                    height: 65,
                   ),
                 ),
               ],
@@ -143,12 +208,15 @@ class OnboardingBirthday extends StatelessWidget {
     );
   }
 
-  Widget _buildDropdownField({required String hint, required List<DropdownMenuItem<String>> items}) {
+  Widget _buildDropdownField(
+      {required String hint,
+      required List<DropdownMenuItem<String>> items,
+      required ValueChanged<String?> onChanged}) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
-          width: 2.0, // Adjust the width as needed
+          width: 2.0,
         ),
         borderRadius: BorderRadius.circular(5.0),
       ),
@@ -157,14 +225,13 @@ class OnboardingBirthday extends StatelessWidget {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             isExpanded: true,
+            value: null,
             hint: Text(
               hint,
-              style: TextStyle(fontWeight: FontWeight.bold), // Add this line to bold the hint
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             items: items,
-            onChanged: (value) {
-              print(value);
-            },
+            onChanged: onChanged,
           ),
         ),
       ),
@@ -172,9 +239,17 @@ class OnboardingBirthday extends StatelessWidget {
   }
 
   List<DropdownMenuItem<String>> _buildMonthItems() {
+    if (selectedMonth != null &&
+        selectedDay != null &&
+        selectedYear != null) {
+      // Hide the error message if all fields are selected
+      setState(() {
+        showError = false;
+      });
+    }
     return List.generate(
       12,
-          (index) => DropdownMenuItem<String>(
+      (index) => DropdownMenuItem<String>(
         value: (index + 1).toString().padLeft(2, '0'),
         child: Text((index + 1).toString().padLeft(2, '0')),
       ),
@@ -182,9 +257,17 @@ class OnboardingBirthday extends StatelessWidget {
   }
 
   List<DropdownMenuItem<String>> _buildDayItems() {
+    if (selectedMonth != null &&
+        selectedDay != null &&
+        selectedYear != null) {
+      // Hide the error message if all fields are selected
+      setState(() {
+        showError = false;
+      });
+    }
     return List.generate(
       31,
-          (index) => DropdownMenuItem<String>(
+      (index) => DropdownMenuItem<String>(
         value: (index + 1).toString().padLeft(2, '0'),
         child: Text((index + 1).toString().padLeft(2, '0')),
       ),
@@ -192,11 +275,18 @@ class OnboardingBirthday extends StatelessWidget {
   }
 
   List<DropdownMenuItem<String>> _buildYearItems() {
-    // Assuming a range of 100 years from current year
+    if (selectedMonth != null &&
+        selectedDay != null &&
+        selectedYear != null) {
+      // Hide the error message if all fields are selected
+      setState(() {
+        showError = false;
+      });
+    }
     final currentYear = DateTime.now().year;
     return List.generate(
       100,
-          (index) => DropdownMenuItem<String>(
+      (index) => DropdownMenuItem<String>(
         value: (currentYear - index).toString(),
         child: Text((currentYear - index).toString()),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart'; // Import the flutter_svg package
 import 'package:frontend/pages/onboarding/onboarding_location.dart';
 import 'package:frontend/pages/profile_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
@@ -14,47 +15,23 @@ class AuthenticationScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(100),
-                topRight: Radius.circular(100)
-              )
-            ),
+            color: Colors.white,
             width: double.infinity,
             height: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                const Spacer(),
-                SizedBox(
-                  width: 333,
-                  height: 56,
-                  child: OutlinedButton(
-                    // Change ElevatedButton to OutlinedButton
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: false)));
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Theme.of(context).secondaryHeaderColor,
-                      side: BorderSide(
-                        color: Theme.of(context).secondaryHeaderColor,
-                      ), // Set border color
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(10), // Set border radius
-                      ),
-                      padding: EdgeInsets.zero, // Remove padding
-                    ),
-                    child: const Text(
-                      "Create Account",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ), // Set text color
-                    ),
-                  ),
+                Spacer(),
+                myButton(
+                  text: 'Create Account',
+                  onPressed: () {
+                    // Add your logic here for when the button is pressed
+                    print('Create Account button pressed');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginScreen(login: false)));
+                  },
                 ),
                 const SizedBox(height: 17),
                 SizedBox(
@@ -63,22 +40,28 @@ class AuthenticationScreen extends StatelessWidget {
                   child: OutlinedButton(
                     // Change ElevatedButton to OutlinedButton
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: true)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen(login: true)));
+
+                      // Add your logic here for when the button is pressed
+                      print('Log in button pressed');
                     },
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
-                        color: Theme.of(context).secondaryHeaderColor,
+                        color: Theme.of(context).primaryColor,
                       ), // Set border color
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(10), // Set border radius
+                            BorderRadius.circular(10), // Set border radius
                       ),
                       padding: EdgeInsets.zero, // Remove padding
                     ),
                     child: Text(
-                      "Log In",
+                      "Log in",
                       style: TextStyle(
-                        color: Theme.of(context).secondaryHeaderColor,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ), // Set text color
@@ -88,7 +71,7 @@ class AuthenticationScreen extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.only(
                       bottom:
-                      100.0), // Adjust the value to move the button down
+                          100.0), // Adjust the value to move the button down
                 ),
               ],
             ),
@@ -99,25 +82,30 @@ class AuthenticationScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 600,
+                height: 650,
                 color: Theme.of(context).primaryColor,
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'City Circle',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      // Adjust top padding as needed
+                      child: SvgPicture.asset(
+                        'assets/icons/CityCircleLogo.svg',
+                        // Path to your SVG file
+                        height: 200, // Adjust height as needed
+                        width: 100, // Adjust width as needed
+                        color: Colors.white, // Set color of SVG
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 20),
                     Text(
-                      'Find your circle',
+                      'Find Your\nCircle',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 45,
                       ),
                     ),
                   ],
