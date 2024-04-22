@@ -87,6 +87,7 @@ class _OnboardingLocationState extends State<OnboardingLocation> {
                           controller: locationController,
                           error: showError,
                           errorMessage: showError ? 'Location is required' : null,
+                          hintText: 'Austin, TX',
                         ),
                       ),
                       const SizedBox(height: 20),

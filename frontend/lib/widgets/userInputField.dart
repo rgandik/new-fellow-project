@@ -4,11 +4,13 @@ class userInputField extends StatefulWidget {
   final TextEditingController controller;
   final bool error;
   final String? errorMessage;
+  final String? hintText;
 
   userInputField({
     required this.controller,
     this.error = false,
     this.errorMessage,
+    this.hintText = 'Search',
   });
 
   @override
@@ -26,7 +28,7 @@ class _userInputFieldState extends State<userInputField> {
           decoration: InputDecoration(
             filled: true,
             // fillColor: widget.error ? Colors.red.withOpacity(0.1) : Colors.white,
-            hintText: 'Search',
+            hintText: widget.hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
             ),
