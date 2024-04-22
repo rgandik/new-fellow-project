@@ -47,7 +47,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
     });
   }
 
-  Future<bool> createUserProfile(/*String location,*/ String company, String school, int day, int month, int year, List<String> interests, String uid) async {
+  Future<bool> createUserProfile(/*String location,*/ String company, String school, String name, int day, int month, int year, List<String> interests, String uid) async {
     var url = 'https://new-fellow-project.vercel.app/users';
 
     final response = await http.post(
@@ -59,6 +59,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
         //'location': location,
         'company': company,
         'school': school,
+        'name': name,
         'day': day,
         'month': month,
         'year': year,
@@ -222,6 +223,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                       //provider.location as String,
                       provider.company()!,
                       provider.school(),
+                      provider.name(),
                       provider.day()!,
                       provider.month()!,
                       provider.year()!,
