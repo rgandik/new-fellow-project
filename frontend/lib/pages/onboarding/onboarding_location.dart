@@ -6,6 +6,8 @@ import 'package:frontend/widgets/userInputField.dart'; // Assuming you've moved 
 import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
 import 'package:provider/provider.dart';
 
+import '../onboarding.dart';
+
 class OnboardingLocation extends StatefulWidget {
   OnboardingLocation({Key? key}) : super(key: key);
 
@@ -128,6 +130,7 @@ class _OnboardingLocationState extends State<OnboardingLocation> {
                               showError = false;
                             });
                             print('Right button pressed');
+                            //OnboardingScreenState().onboardingMove(1);
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>

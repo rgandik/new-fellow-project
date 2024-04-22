@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/authentication_screen.dart';
+import '../providers/profile_provider.dart';
+import 'onboarding.dart';
 import 'onboarding/onboarding_location.dart';
 import 'package:frontend/pages/pages_screen.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +64,23 @@ class RootScreenState extends State<RootScreen> {
       );
     } else {
       screen = const AuthenticationScreen();
+    }
+    ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
+    if (profileProvider.onboarded()) {
+      screen = FutureBuilder<bool>(
+        future: checkOnboardingCompletion(authProvider.uid()!),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              if (snapshot.data ?? false) {
+                return const PagesScreen();
+              } else {
+                return OnboardingLocation();
+              }
+            }
+          }
+      );
     }
     return Scaffold(
         body: screen

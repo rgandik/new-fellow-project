@@ -30,7 +30,16 @@ class YourCirclesState extends State<YourCircles> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Circles'),
+        title: const Text(
+            'Your Circles',
+            style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 45.0,
+          ),
+        ),
+        elevation: 0,
+        centerTitle: false,
+        toolbarHeight: 90
       ),
       body: CustomScrollView(
         slivers: [
@@ -47,6 +56,12 @@ class YourCirclesState extends State<YourCircles> {
               totalSwitches: 2,
               labels: const ['My Circles', 'Created Circles'],
               radiusStyle: true,
+              customTextStyles: const [
+                TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18
+                )
+              ],
               onToggle: (index) {
                 print(index);
                 _selectedIndex = index!;
@@ -55,6 +70,11 @@ class YourCirclesState extends State<YourCircles> {
                     curve: Curves.easeIn);
               }
             )
+          ),
+          const SliverToBoxAdapter(
+              child: SizedBox(
+                  height: 30
+              )
           ),
           SliverList(
             delegate: SliverChildListDelegate(

@@ -3,6 +3,7 @@ import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/pages/profile_edit_screen.dart';
 import 'package:frontend/pages/login_screen.dart';
 
+import '../providers/profile_provider.dart';
 import '../services/auth_service.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -75,6 +76,7 @@ class ProfileScreen extends StatelessWidget {
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
                   AuthService().signOut();
+                  ProfileProvider().notOnboarded();
                    /*Navigator.push(
                      context,
                      MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend/pages/root_screen.dart';
 import 'package:frontend/providers/auth_provider.dart';
+import 'package:frontend/providers/profile_provider.dart';
 import 'package:frontend/widget_tree.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart';
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
     }
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider())
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<ProfileProvider>(create: (_) => ProfileProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(

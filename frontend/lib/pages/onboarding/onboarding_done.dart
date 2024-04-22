@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/pages/authentication_screen.dart';
+import 'package:frontend/providers/profile_provider.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 import 'package:frontend/pages/onboarding/onboarding_achievements.dart';
 
@@ -10,6 +11,8 @@ import 'package:frontend/widgets/myButton.dart';
 
 import 'package:frontend/pages/pages_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../root_screen.dart';
 
 class OnboardingDone extends StatelessWidget {
   @override
@@ -53,15 +56,15 @@ class OnboardingDone extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: myButton(
-                  onPressed: () {
+                  onPressed: () async {
                     print("Start Finding Circles Pressed");
-                    final provider = Provider.of<Onboarding_Provider>(context, listen: false);
-                    print(provider.selectedInterests);
-                    Navigator.push(
+                    //final provider = Provider.of<Onboarding_Provider>(context, listen: false);
+                    await ProfileProvider().isOnboarded();
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PagesScreen()),
-                    );
+                          builder: (context) => const RootScreen()),
+                    );*/
                     // Need to let the root screen know to re-check if finished onboarding
                     // Maybe change the futurebuilder to instead be based on the value of some provider that stores user information
                   },
