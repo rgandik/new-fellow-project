@@ -144,7 +144,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Center(
               child: Container(
                 width: 200.0, // Set the width as needed

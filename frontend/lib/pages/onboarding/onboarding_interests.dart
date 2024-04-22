@@ -182,8 +182,20 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                         .read<Onboarding_Provider>()
                         .updateSelectedInterests(selectedInterests);
                     context.read<Onboarding_Provider>().finishOnboarding();
+                    AuthProvider authProvider = Provider.of<AuthProvider>(context,
+                        listen: false);
                     final provider = Provider.of<Onboarding_Provider>(context,
                         listen: false);
+                    createUserProfile(
+                      //provider.location as String,
+                      provider.company()!,
+                      provider.school(),
+                      provider.day()!,
+                      provider.month()!,
+                      provider.year()!,
+                      selectedInterests,
+                      authProvider.uid()!
+                    );
                   },
                   child: SvgPicture.asset(
                     'assets/icons/Front Arrow.svg',

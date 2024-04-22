@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/pages/profile_edit_screen.dart';
 import 'package:frontend/pages/login_screen.dart';
 
@@ -74,11 +75,11 @@ class ProfileScreen extends StatelessWidget {
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
                   AuthService().signOut();
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => LoginScreen()),
-                  // );
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                         builder: (context) => const AuthenticationScreen())
+                  );
                   // Add functionality for account
                 },
               ),
