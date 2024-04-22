@@ -14,20 +14,47 @@ class AuthenticationScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            color: Colors.white,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(100),
+                topRight: Radius.circular(100)
+              )
+            ),
             width: double.infinity,
             height: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Spacer(),
-                myButton(
-                  text: 'Create Account',
-                  onPressed: () {
-                    // Add your logic here for when the button is pressed
-                    print('Create Account button pressed');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: false)));
-                  },
+                const Spacer(),
+                SizedBox(
+                  width: 333,
+                  height: 56,
+                  child: OutlinedButton(
+                    // Change ElevatedButton to OutlinedButton
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: false)));
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).secondaryHeaderColor,
+                      side: BorderSide(
+                        color: Theme.of(context).secondaryHeaderColor,
+                      ), // Set border color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(10), // Set border radius
+                      ),
+                      padding: EdgeInsets.zero, // Remove padding
+                    ),
+                    child: const Text(
+                      "Create Account",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ), // Set text color
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 17),
                 SizedBox(
@@ -37,13 +64,10 @@ class AuthenticationScreen extends StatelessWidget {
                     // Change ElevatedButton to OutlinedButton
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(login: true)));
-
-                      // Add your logic here for when the button is pressed
-                      print('Log in button pressed');
                     },
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).secondaryHeaderColor,
                       ), // Set border color
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -52,9 +76,9 @@ class AuthenticationScreen extends StatelessWidget {
                       padding: EdgeInsets.zero, // Remove padding
                     ),
                     child: Text(
-                      "Log in",
+                      "Log In",
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).secondaryHeaderColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ), // Set text color
@@ -99,8 +123,6 @@ class AuthenticationScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // SizedBox(height: 2), // Add some space between the text fields
-
             ],
           ),
         ],

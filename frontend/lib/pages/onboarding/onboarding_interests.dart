@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myEntryField.dart';
-
 import 'onboarding_done.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class OnboardingInterests extends StatefulWidget {
   const OnboardingInterests({Key? key});
@@ -41,6 +42,17 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
     setState(() {
       selectedInterests.remove(interest);
     });
+  }
+
+  Future<void> createUserProfile(String location, String company, String school, ) async {
+    var url = 'https://new-fellow-project.vercel.app/gusers';
+
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+
+      }
+    );
   }
 
   @override
@@ -95,7 +107,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   ),
                 ),
                 const SizedBox(height: 10), // Added for spacing
-                Text(
+                const Text(
                   'Creative Labels', // Add your small text here
                   style: TextStyle(
                     fontSize: 16,
@@ -118,7 +130,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                               height: 20, width: 20),
                         ),
                         Text(label,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 17,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -144,7 +156,6 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                 GestureDetector(
                   onTap: () {
                     // Handle left button press
-                    print('Left button pressed');
                     Navigator.of(context).pop();
                   },
                   child: SvgPicture.asset(
@@ -156,7 +167,6 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                 GestureDetector(
                   onTap: () {
                     // Handle right button press
-                    print('Right button pressed');
                     Navigator.push(
                       context,
                       MaterialPageRoute(
