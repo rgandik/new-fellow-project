@@ -47,6 +47,35 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
     });
   }
 
+  Future<bool> createUserProfile(/*String location,*/ String company, String school, int day, int month, int year, List<String> interests, String uid) async {
+    var url = 'https://new-fellow-project.vercel.app/users';
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        //'location': location,
+        'company': company,
+        'school': school,
+        'day': day,
+        'month': month,
+        'year': year,
+        'interests': interests,
+        'uid': uid
+      })
+    );
+    if (response.statusCode == 201) {
+      print(response.body);
+      return true;
+    } else {
+      print("Error creating user profile");
+      print(response.body);
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +98,13 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ), // Default style
                       children: [
-                        TextSpan(
+                        const TextSpan(
                           text: "Select Your",
                         ),
                         TextSpan(
@@ -100,8 +129,8 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                   ),
                 ),
                 const SizedBox(height: 10), // Added for spacing
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
                   // Adjust the padding as needed
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -134,7 +163,7 @@ class _OnboardingInterestsState extends State<OnboardingInterests> {
                                       width: 20),
                                 ),
                                 Text(label,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 17,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600,
