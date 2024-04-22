@@ -4,6 +4,9 @@ import 'package:frontend/pages/explore_screen.dart';
 import 'package:frontend/pages/login_screen.dart';
 import 'package:frontend/widgets/myButton.dart';
 
+// Define a global variable for horizontal margin
+const double horizontalMargin = 25.0;
+
 class ActivityCardPage extends StatefulWidget {
   final String activityImageUrl;
   final String activity;
@@ -39,7 +42,7 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
           Expanded(
             flex: 3,
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(horizontalMargin),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,6 +51,7 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                     style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 8),
@@ -60,8 +64,11 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                       ),
                       SizedBox(width: 6),
                       Text(
-                        '${widget.distance}',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        '${widget.distance} miles away',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -76,7 +83,10 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                       SizedBox(width: 6),
                       Text(
                         '45',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -86,37 +96,37 @@ class _ActivityCardPageState extends State<ActivityCardPage> {
                     child: SingleChildScrollView(
                       child: Text(
                         widget.description,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Poppins', color: Colors.black),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
                     child: Align(
-                      alignment: Alignment.center, // Align buttons to the center
+                      alignment: Alignment.center,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center, // Align buttons to the center
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           myButton(
                             text: 'Join Circle',
                             onPressed: () {
                               print('Join Circle Button pressed');
+                              Navigator.of(context).pop();
                             },
+                            width: 3000,
                           ),
                           SizedBox(height: 19),
                           SizedBox(
-                            width: 333,
+                            width: 3000,
                             height: 41,
                             child: OutlinedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        LoginScreen(login: true),
-                                  ),
-                                );
-
-                                print('Log in button pressed');
+                                Navigator.of(context).pop();
+                                print('Go Back button pressed');
                               },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(

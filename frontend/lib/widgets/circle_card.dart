@@ -64,10 +64,14 @@ class CircleCardState extends State<CircleCard> {
                               activity: widget.activity,
                               distance: "2",
                               description: widget.description
+                              // onTapped: () {
+                              //   Navigator.of(context).pop();
+                              // }
                           )
                       )
                   );
                   // Action when the card is tapped
+                  // print(widget.)
                 },
               ),
             ],
