@@ -21,6 +21,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> listenToAuth() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      print(user);
       if (user == null) {
         _loggedIn = false;
         _uid = null;
@@ -28,6 +29,7 @@ class AuthProvider extends ChangeNotifier {
         _loggedIn = true;
         _uid = FirebaseAuth.instance.currentUser!.uid;
       }
+      print(_loggedIn);
       notifyListeners();
     });
   }

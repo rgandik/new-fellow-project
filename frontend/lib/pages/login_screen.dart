@@ -119,11 +119,11 @@ class LoginScreenState extends State<LoginScreen> {
                   }
                   Navigator.pop(context);
                 },
-                text: widget.login ? 'Log In' : 'Sign Up',
+                text: widget.login ? 'Log in' : 'Sign up',
                 // child: Text('Start Finding Circles'),
               ),
             ),
-            const SizedBox(height: 200.0),
+            SizedBox(height: 200.0),
             const Row(
               children: [
                 Expanded(

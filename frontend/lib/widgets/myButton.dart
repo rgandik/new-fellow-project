@@ -3,16 +3,17 @@ import 'package:frontend/constants.dart';
 class myButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-
+  final double width;
   const myButton({
     required this.text,
     required this.onPressed,
+    this.width = 333,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 333,
+      width: width,
       height: 56,
       child: ElevatedButton(
         onPressed: onPressed,
