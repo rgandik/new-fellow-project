@@ -29,10 +29,10 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
   late double latitude;
   late double longitude;
   String _groupLink = '';
+  String _linkType = '';
   String _category = '';
   XFile? _imageFile;
   double _maxParticipants = 10;
-  //String uid = AuthProvider().uid()!;
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -279,6 +279,28 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(
+                    labelText: 'Link Type',
+                    hintText: 'Please enter the link type (GroupMe, Slack, etc.)',
+                    hintStyle: TextStyle(color: kHintColor),
+                    fillColor: kTextFieldFillColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the link type (GroupMe, Slack, etc.)';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _linkType = value!;
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
                     labelText: 'Category',
                     hintText: 'Put interest categories separated by commas',
                     hintStyle: TextStyle(color: kHintColor),
@@ -368,7 +390,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                       _eventTime.minute,
                       latitude,
                       longitude,
-                      ,
+                      _linkType,
                       _groupLink,
                       [_category],
                       authProvider.uid()!,
