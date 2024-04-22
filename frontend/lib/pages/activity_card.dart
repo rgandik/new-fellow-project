@@ -18,7 +18,7 @@ class ActivityCardPage extends StatefulWidget {
     required this.activityImageUrl,
     required this.activity,
     required this.distance,
-    required this.description,
+    required this.description
   }) : super(key: key);
 
   @override

@@ -96,9 +96,6 @@ class ExploreScreenState extends State<ExploreScreen> {
             )
           ),
           const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 30
-            )
           ),
           SliverList(
             delegate: SliverChildListDelegate(

@@ -57,7 +57,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
     print(longitude);
   }
 
-  Future<bool> createCircle(String activity, String description, int day, int month, int year, int hour, int minute, double latitude, double longitude, String gcUrl, List<String> categories, String uid, double size) async {
+  Future<bool> createCircle(String activity, String description, int day, int month, int year, int hour, int minute, double latitude, double longitude, String platform, String gcUrl, List<String> categories, String uid, double size) async {
     var url = 'https://new-fellow-project.vercel.app/groups';
 
     final response = await http.post(
@@ -75,11 +75,13 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
           'minute': minute,
           'latitude': latitude,
           'longitude': longitude,
+          'platform': platform,
           'gcUrl': gcUrl,
           'categories': categories,
           'users': [uid],
           'size': size,
-          'imageUrl': 'https://picsum.photos/200'
+          'imageUrl': 'https://picsum.photos/200',
+          'distance': '3'
         })
     );
     if (response.statusCode == 201) {
@@ -366,6 +368,7 @@ class _CreateCircleScreenState extends State<CreateCircleScreen> {
                       _eventTime.minute,
                       latitude,
                       longitude,
+                      ,
                       _groupLink,
                       [_category],
                       authProvider.uid()!,
