@@ -5,7 +5,10 @@ import 'package:frontend/pages/authentication_screen.dart';
 import 'package:frontend/widgets/myEntryField.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/providers/onboarding_provider.dart';
+import '../../providers/auth_provider.dart';
 import 'onboarding_done.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class OnboardingInterests extends StatefulWidget {
   const OnboardingInterests({Key? key});
