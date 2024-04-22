@@ -5,6 +5,8 @@ import 'package:frontend/pages/onboarding/onboarding_interests.dart';
 import 'package:frontend/providers/onboarding_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/userInputField.dart';
+
 class OnboardingBirthday extends StatefulWidget {
   const OnboardingBirthday({Key? key}) : super(key: key);
 
@@ -13,198 +15,224 @@ class OnboardingBirthday extends StatefulWidget {
 }
 
 class _OnboardingBirthdayState extends State<OnboardingBirthday> {
+  TextEditingController nameController = TextEditingController();
   String? selectedMonth;
   String? selectedDay;
   String? selectedYear;
+  bool nameError = false;
   bool showError = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SvgPicture.asset(
-                    'assets/icons/progress3.svg',
-                    height: 100,
-                    width: 20,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ), // Default style
+      body: SingleChildScrollView(
+        // physics: NeverScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+            minWidth: MediaQuery.of(context).size.width,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Column(
                       children: [
-                        TextSpan(
-                          text: "When is your",
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: SvgPicture.asset(
+                            'assets/icons/progress3.svg',
+                            height: 100,
+                            width: 20,
+                          ),
                         ),
-                        TextSpan(
-                          text: " Birthday?",
-                          style: TextStyle(color: Constants.myOrange),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    'Find some friends who are close to your age!',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: RichText(
+                            text: const TextSpan(
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ), // Default style
                               children: [
-                                Expanded(
-                                  child: _buildDropdownField(
-                                    hint: selectedMonth ?? 'MM',
-                                    items: _buildMonthItems(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedMonth = value;
-                                      });
-                                    },
-                                  ),
+                                TextSpan(
+                                  text: "When is your",
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: _buildDropdownField(
-                                    hint: selectedDay ?? 'DD',
-                                    items: _buildDayItems(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedDay = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: _buildDropdownField(
-                                    hint: selectedYear ?? 'YYYY',
-                                    items: _buildYearItems(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedYear = value;
-                                      });
-                                    },
-                                  ),
+                                TextSpan(
+                                  text: " Birthday?",
+                                  style: TextStyle(color: Constants.myOrange),
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Added SizedBox
-                if (showError)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red),
-                        SizedBox(width: 10),
-                        Text(
-                          'Please select all fields',
-                          style: TextStyle(color: Colors.red, fontSize: 16),
+                        const SizedBox(height: 10),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          child: Text(
+                            'Find some friends who are close to your age!',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Name',
+                                        style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    userInputField(
+                                      controller: nameController,
+                                      error: nameError,
+                                      errorMessage: 'Please enter your name',
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildDropdownField(
+                                            hint: selectedMonth ?? 'MM',
+                                            items: _buildMonthItems(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedMonth = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: _buildDropdownField(
+                                            hint: selectedDay ?? 'DD',
+                                            items: _buildDayItems(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedDay = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: _buildDropdownField(
+                                            hint: selectedYear ?? 'YYYY',
+                                            items: _buildYearItems(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedYear = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Added SizedBox
+                        if (showError)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            child: Row(
+                              children: [
+                                Icon(Icons.error_outline, color: Colors.red),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Please select all fields',
+                                  style: TextStyle(color: Colors.red, fontSize: 16),
 
+                                ),
+                              ],
+                            ),
+                          ),
+                        SizedBox(height: showError ? 16 : 40),
+                        // Adjusted SizedBox height
+                        SvgPicture.asset(
+                          'assets/icons/birthdayCake.svg',
+                          height: 300,
+                          width: 400,
+                          fit: BoxFit.cover,
                         ),
                       ],
                     ),
                   ),
-                SizedBox(height: showError ? 16 : 40),
-                // Adjusted SizedBox height
-                SvgPicture.asset(
-                  'assets/icons/birthdayCake.svg',
-                  height: 300,
-                  width: 400,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    // Handle left button press
-                    print('Left button pressed');
-                    Navigator.of(context).pop();
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/Back Arrow.svg',
-                    height: 65,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Handle left button press
+                            print('Left button pressed');
+                            Navigator.of(context).pop();
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/Back Arrow.svg',
+                            height: 65,
+                          ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle right button press
+                            print('Right button pressed');
+                            if (selectedMonth != null &&
+                                selectedDay != null &&
+                                selectedYear != null) {
+                              // Hide the error message if all fields are selected
+                              setState(() {
+                                showError = false;
+                              });
+                              // Navigate to the next screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OnboardingInterests()),
+                              );
+                              // Update the context
+                              context.read<Onboarding_Provider>().updateBirthday(
+                                  selectedMonth, selectedDay, selectedYear);
+                            } else {
+                              // Show an error message if not all fields are selected
+                              setState(() {
+                                showError = true;
+                              });
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            'assets/icons/Front Arrow.svg',
+                            height: 65,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    // Handle right button press
-                    print('Right button pressed');
-                    if (selectedMonth != null &&
-                        selectedDay != null &&
-                        selectedYear != null) {
-                      // Hide the error message if all fields are selected
-                      setState(() {
-                        showError = false;
-                      });
-                      // Navigate to the next screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OnboardingInterests()),
-                      );
-                      // Update the context
-                      context.read<Onboarding_Provider>().updateBirthday(
-                          selectedMonth, selectedDay, selectedYear);
-                    } else {
-                      // Show an error message if not all fields are selected
-                      setState(() {
-                        showError = true;
-                      });
-                    }
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/Front Arrow.svg',
-                    height: 65,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+                ],
+              ),
+            )
+        )
+      )
     );
   }
 

@@ -7,6 +7,7 @@ class Onboarding_Provider extends ChangeNotifier {
   TextEditingController locationController = TextEditingController();
   TextEditingController companyController = TextEditingController();
   TextEditingController schoolController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   DateTime? birthday;
   List<String> selectedInterests = [];
   bool finishedOnboarding = false;
@@ -37,6 +38,15 @@ class Onboarding_Provider extends ChangeNotifier {
 
   String school() {
     return schoolController.text;
+  }
+
+  void updateName(String name) {
+    nameController.text = name;
+    notifyListeners();
+  }
+
+  String name() {
+    return nameController.text;
   }
 
   void updateBirthday(String? selectedMonth, String? selectedDay, String? selectedYear) {
